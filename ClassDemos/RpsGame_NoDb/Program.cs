@@ -123,7 +123,13 @@ namespace RpsGame_NoDb
                 }
             }
             */
-
+            /*
+            public enum Choice{
+                Rock,
+                Paper,
+                Scissors
+            }
+            */
             // Version 2
             Console.WriteLine("This is The Group 2 Awesome Rock-Paper-Sissors Game!\n");
             while(true) {
@@ -183,7 +189,9 @@ namespace RpsGame_NoDb
                 }
             }
 
-
+            Player p1 = new Player();
+            p1.PlayerId = -1;
+            Console.WriteLine(p1.PlayerId);
         }
     }
 }

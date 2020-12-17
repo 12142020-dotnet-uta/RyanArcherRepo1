@@ -175,7 +175,7 @@ namespace RpsGame_NoDb
 
                 Console.WriteLine("\nWould you like to play again?\n\tType y for Yes\n\tType n for No\n");
                 string playAgain = Console.ReadLine(); // User input and add into playAgain
-                if(playAgain == "y") {
+                if(playAgain.ToLower() == "y" || playAgain.ToLower() == "yes") {
                     continue;
                 } else {
                     Console.WriteLine("\nGood bye.");

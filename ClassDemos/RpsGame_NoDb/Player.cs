@@ -4,15 +4,20 @@ namespace RpsGame_NoDb
 {
     class Player
     {
-        private Guid playerId = new Guid();
+        public Player(){}
+        public Player(string fname, string lname){
+            this.Fname = fname;
+            this.Lname = lname;
+        }
+        private Guid playerId = Guid.NewGuid();
         public int PlayerId { 
             get {
                 return PlayerId;
             }
         }
 
-        private int fName;
-        public int Fname {
+        private string fName;
+        public string Fname {
             get { return fName; }
             set { 
                 if(value is string && value.Length < 20 && value.Length > 0){
@@ -23,8 +28,8 @@ namespace RpsGame_NoDb
                 }
             }
         }
-        private int lName;
-        public int Lname {
+        private string lName;
+        public string Lname {
             get { return lName; }
             set { 
                 if(value is string && value.Length < 20 && value.Length > 0){

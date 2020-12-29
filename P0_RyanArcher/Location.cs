@@ -11,7 +11,6 @@ namespace MelfsMagic
         public Guid LocationId { get{ return locationID; } set{ locationID = value;} }
         public Location() { 
         }
-
         
         public Location(string city) {
             // this.LocationId = locationId;

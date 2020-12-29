@@ -12,13 +12,16 @@ namespace MelfsMagic
 
         static StoreDbContext DbContext = new StoreDbContext(); // Create Database Object
         DbSet<User> users = DbContext.users;
-        DbSet<Location> locations = DbContext.locations;
+        DbSet<Location> locations = DbContext.Locations;
         DbSet<Product> products = DbContext.products;
+        DbSet<Inventory> inventories = DbContext.inventories;
 
         public Guid curLocation;
 
         
         List<Location> storeList = new List<Location>();
+        List<Product> productList = new List<Product>();
+        List<Inventory> inventoryList = new List<Inventory>();
 
         /// <summary>
         /// Creates a player after verifying that the player does not already exist. returns the player obj
@@ -26,7 +29,6 @@ namespace MelfsMagic
         /// <returns></returns>
         public User CreateUser(string fName = "null", string lName = "null", string eMail = "..@email.net")
         {
-            ValidateLocationTable();
             User u1 = new User();
             u1 = users.Where(x => x.Fname == fName && x.Lname == lName).FirstOrDefault();
             //p1 = DbContext.players.Where(x => x.Fname == fName && x.Lname == lName).FirstOrDefault();
@@ -67,185 +69,6 @@ namespace MelfsMagic
         }
 
 
-        public void ValidateLocationTable() {
-            if (DbContext.locations.Count() == 0)
-            {
-                DbContext.locations.Add(new Location("New York, NY"));
-                DbContext.locations.Add(new Location("Orlando, FL"));
-                DbContext.locations.Add(new Location("Los Angeles, CA"));
-                DbContext.locations.Add(new Location("Palo Alto, CA"));
-                DbContext.locations.Add(new Location("Chicago, IL"));
-            }
-            DbContext.SaveChanges();
-            foreach (Location store in DbContext.locations)
-            {
-                storeList.Add(store);
-            }
-        }
-        // public void ValidateProductTable()
-        // {
-        //     if (DbContext.Products.Count() == 0)
-        //     {
-        //         List<Product> productList = new List<Product>();
-        //         string[] descriptions = {"Ball-in-a-Cup Game", "Left Shoe", "Broken Soldering Iron", "Wedge of Cheese", "Straightened Paperclip"};
-        //         decimal[] prices = {5.00m, 7.83m, 8.41m, 4.99m, 0.99m};
-        //         for (int i = 0; i < 5; i++)
-        //         {
-        //             Product newProduct = new Product();
-        //             newProduct.Description = $"{descriptions[i]}";
-        //             newProduct.Price = prices[i];
-        //             DbContext.Products.Add(newProduct);
-        //         }
-        //         DbContext.SaveChanges();
-        //     }
-
-        // }
-        // public void ValidateInventory()
-        // {
-        //     if (DbContext.InventoryLines.Count() == 0)
-        //     {
-        //         foreach (Location location in DbContext.Locations)
-        //         {
-        //             foreach (Product product in DbContext.Products)
-        //             {
-        //                 DbContext.InventoryLines.Add(new InventoryLine(location.LocationId, product.ProductId, 99));
-        //             }
-        //         }
-        //         DbContext.SaveChanges();
-        //     }
-        // }
-
-
-
-
-        // /// <summary>
-        // /// takes 2 players, creates  match with those players and returns the match.
-        // /// </summary>
-        // /// <param name="p1"></param>
-        // /// <param name="p2"></param>
-        // /// <returns></returns>
-        // public Match CreateMatch(Player p1, Player p2)
-        // {
-        //     Match match = new Match();
-        //     match.Player1 = p1;
-        //     match.Player2 = p2;
-        //     return match;
-        // }
-
-        // /// <summary>
-        // /// takes a new match instance and saves it to the List<Match> (or context).
-        // /// If the match already exists, returns false.
-        // /// </summary>
-        // /// <returns></returns>
-        // public bool SaveMatch(Match match)
-        // {
-        //     //check if the match is already there
-        //     //if (!matches.Exists(x => x.MatchId == match.MatchId))
-        //     if (!matches.Any(x => x.MatchId == match.MatchId))
-        //     {
-        //         matches.Add(match);
-        //         DbContext.SaveChanges();
-        //         return true;
-        //     }
-        //     else return false;
-        // }
-
-        // /// <summary>
-        // /// returns a random Choice Enum based on the number of options.
-        // /// </summary>
-        // /// <returns></returns>
-        // public Choice GetRandomChoice()
-        // {
-        //     return (Choice)randomNumber.Next(numberOfChoices);
-        // }
-
-        // /// <summary>
-        // /// plays an entire round and adds the completedd round to the List<Match>, roiund to the List<Round>
-        // /// </summary>
-        // /// <param name="match"></param>
-        // /// <param name="computerChoice"></param>
-        // /// <param name="userChoice"></param>
-        // /// <returns></returns>
-        // public Round PlayRound(Match match, Choice computerChoice, Choice userChoice)
-        // {
-        //     Round round = new Round();
-        //     round.Player1Choice = computerChoice;
-        //     round.Player2Choice = userChoice;
-        //     if (userChoice == computerChoice)   // is the playes tied
-        //     {
-        //         round.WinningPlayer = CreatePlayer("TieGame", "TieGame");
-        //         rounds.Add(round);
-        //         match.Rounds.Add(round);
-        //         match.RoundWinner(); // send in the player who won. empty args means a tie round
-        //         //DbContext.SaveChanges();
-        //     }
-        //     else if (((int)userChoice == 1 && (int)computerChoice == 0) || // if the user won
-        //         ((int)userChoice == 2 && (int)computerChoice == 1) ||
-        //         ((int)userChoice == 0 && (int)computerChoice == 2))
-        //     {
-        //         round.WinningPlayer = match.Player2;
-        //         rounds.Add(round);
-        //         match.Rounds.Add(round);
-        //         match.RoundWinner(match.Player2);
-        //         //DbContext.SaveChanges();
-        //     }
-        //     else
-        //     {
-        //         round.WinningPlayer = match.Player1;
-        //         rounds.Add(round);
-        //         match.Rounds.Add(round);
-        //         match.RoundWinner(match.Player1);
-        //         //DbContext.SaveChanges();
-        //     }
-        //     DbContext.SaveChanges();
-        //     return round;
-        // }
-
-        // /// <summary>
-        // /// adds the completed match to the List<Match> if it ins't already in the List.
-        // /// returns true if the match was successfully added, false if the matchId already exists
-        // /// </summary>
-        // /// <param name="match"></param>
-        // public bool AddCompletedMatch(Match match)
-        // {
-        //     //if (!matches.Exists(x => x.MatchId == match.MatchId))
-        //     if (!matches.Any(x => x.MatchId == match.MatchId))
-        //     {
-        //         matches.Add(match);
-        //         DbContext.SaveChanges();
-        //         return true;
-        //     }
-        //     DbContext.SaveChanges();
-        //     return false;
-        // }
-
-        // /// <summary>
-        // /// Updates the win/Loss records of both players in the match sent as an argument
-        // /// </summary>
-        // /// <param name="match"></param>
-        // public void UpdateWinLossRecords(Match match)
-        // {
-        //     if (match.MatchWinner().PlayerId == match.Player1.PlayerId)
-        //     {
-        //         match.Player1.AddWin();
-        //         match.Player2.AddLoss();
-        //     }
-        //     else if (match.MatchWinner().PlayerId == match.Player2.PlayerId)
-        //     {
-        //         match.Player2.AddWin();
-        //         match.Player1.AddLoss();
-        //     }
-        // }
-
-        // /// <summary>
-        // /// returns all match objects in List<Match>
-        // /// </summary>
-        // /// <returns></returns>
-        // public List<Match> GetMatches()
-        // {
-        //     //return matches;
-        //     return matches.ToList();
-        // }
 
         /// <summary>
         /// returns all user objects in List<User>
@@ -253,7 +76,7 @@ namespace MelfsMagic
         /// <returns></returns>
         public List<User> GetUsers()
         {
-            //return players;
+            //return users;
             return users.ToList();
         }
         /// <summary>
@@ -262,9 +85,90 @@ namespace MelfsMagic
         /// <returns></returns>
         public List<Location> GetLocations()
         {
-            //return players;
+            //return locations;
             return locations.ToList();
         }
+        /// <summary>
+        /// returns all products in List<Location>
+        /// </summary>
+        /// <returns></returns>
+        public List<Product> GetProducts()
+        {
+            //return products;
+            return products.ToList();
+        }
+        /// <summary>
+        /// returns all inventory in List<Location>
+        /// </summary>
+        /// <returns></returns>
+        public List<Inventory> GetInventories()
+        {
+            //return inventories;
+            return inventories.ToList();
+        }
+
+
+        // Populate the Database if Empty
+        //
+        //
+        /// <summary>
+        /// Checks to see if Locations Table in Database is Empty
+        /// If it is Empty populate with Data
+        /// </summary>        
+        public void ValidateLocationTable() {
+            if (DbContext.Locations.Count() == 0)
+            {
+                DbContext.Locations.Add(new Location("Neverwinter"));
+                DbContext.Locations.Add(new Location("Waterdeep"));
+                DbContext.Locations.Add(new Location("Baldurs Gate"));
+            }
+            DbContext.SaveChanges();
+            foreach (Location store in DbContext.Locations)
+            {
+                storeList.Add(store);
+            }
+        }
+        /// <summary>
+        /// Checks to see if Products Table in Database is Empty
+        /// If it is Empty populate with Data
+        /// </summary>        
+        public void ValidateProductTable() {
+            if (DbContext.products.Count() == 0)
+            {
+                DbContext.products.Add(new Product("Melf's Minute Meteors", 1000, "You create six tiny meteors in your space."));
+                DbContext.products.Add(new Product("Acid Arrow", 500, "A shimmering green arrow streaks toward a target within range and bursts in a spray of acid."));
+                DbContext.products.Add(new Product("Unicorn Arrow", 600, "A translucent unicorn shape appears in midair and speeds toward the target of this spell."));
+                DbContext.products.Add(new Product("Unicorn Arrow", 300, "A Book on Universal Astronomy. I'd tell you what''s in it, but no spoilers..."));
+                DbContext.products.Add(new Product("Weapons of the Ether", 300, "A Book on Weapons of the Either. I''d tell you what''s in it, but no spoilers..."));
+            }
+            DbContext.SaveChanges();
+            foreach (Product store in DbContext.products)
+            {
+                productList.Add(store);
+            }
+        }
+        
+        /// <summary>
+        /// Checks to see if Inventory Table in Database is Empty
+        /// If it is Empty populate with Data
+        /// </summary>        
+        public void ValidateInventoryTable() {
+            if (DbContext.products.Count() == 0)
+            {
+
+                // DbContext.products.Add(new Product("Melf's Minute Meteors", 1000, "You create six tiny meteors in your space."));
+                // DbContext.products.Add(new Product("Acid Arrow", 500, "A shimmering green arrow streaks toward a target within range and bursts in a spray of acid."));
+                // DbContext.products.Add(new Product("Unicorn Arrow", 600, "A translucent unicorn shape appears in midair and speeds toward the target of this spell."));
+                // DbContext.products.Add(new Product("Unicorn Arrow", 300, "A Book on Universal Astronomy. I'd tell you what''s in it, but no spoilers..."));
+                // DbContext.products.Add(new Product("Weapons of the Ether", 300, "A Book on Weapons of the Either. I''d tell you what''s in it, but no spoilers..."));
+            }
+            DbContext.SaveChanges();
+            foreach (Inventory store in DbContext.inventories)
+            {
+                inventoryList.Add(store);
+            }
+        }
+
 
 
     }

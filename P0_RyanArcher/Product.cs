@@ -7,9 +7,43 @@ namespace MelfsMagic
 {
     public class Product
     {
+        public Product(){}
+        public Product(string name = "null", int price = 0, string description = "null") {
+            this.Name = name;
+            this.Price = price;
+            this.Description = description;
+        }
         private Guid productID = Guid.NewGuid();
         [Key]
         public Guid ProductId { get{ return productID; } set{ productID = value;} }
+
+        private string name;
+        public string Name {get{ return name; } 
+            set {
+            if (value is string && value.Length < 200 && value.Length > 0) {
+                    name = value;
+                } else {throw new Exception("The product name is not valid");}
+            }
+        }
+        private int price;
+        public int Price {get{ return price; } 
+            set {
+                price = value;
+            // if (int.TryParse(value) && value.Length < 20 && value.Length > 0) {
+            //         name = value;
+            //     } else {throw new Exception("The product name is not valid");}
+            }
+        }
+        private string description;
+        public string Description {get{ return description; } 
+            set {
+            // if (value is string && value.Length < 20 && value.Length > 0) {
+                    description = value;
+                // } else {throw new Exception("The product description is not valid");}
+            }
+        }
+
+
         /*[Key]
         public Guid MatchId = Guid.NewGuid();
         */

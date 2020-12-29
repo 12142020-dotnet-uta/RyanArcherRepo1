@@ -11,6 +11,7 @@ namespace MelfsMagic
         }
         public User(string fname = "null", string lname = "null", string email = "null")
         {
+            
             this.Email = email;
             this.Fname = fname;
             this.Lname = lname;

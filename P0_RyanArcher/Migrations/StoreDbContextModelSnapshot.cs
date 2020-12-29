@@ -19,6 +19,23 @@ namespace MelfsMagicTest.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.1");
 
+            modelBuilder.Entity("MelfsMagic.Inventory", b =>
+                {
+                    b.Property<Guid>("InventoryId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("LocationId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ProductName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("InventoryId");
+
+                    b.ToTable("inventories");
+                });
+
             modelBuilder.Entity("MelfsMagic.Location", b =>
                 {
                     b.Property<Guid>("LocationId")
@@ -30,7 +47,7 @@ namespace MelfsMagicTest.Migrations
 
                     b.HasKey("LocationId");
 
-                    b.ToTable("locations");
+                    b.ToTable("Locations");
                 });
 
             modelBuilder.Entity("MelfsMagic.Product", b =>
@@ -38,6 +55,15 @@ namespace MelfsMagicTest.Migrations
                     b.Property<Guid>("ProductId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Price")
+                        .HasColumnType("int");
 
                     b.HasKey("ProductId");
 

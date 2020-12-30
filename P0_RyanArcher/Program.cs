@@ -56,6 +56,7 @@ namespace MelfsMagic
                     PrintUserData(users);
                     
                     Location curStore = LocationMenu(locations);
+                    StoreMenu(curStore, inventories);
                     // Console.WriteLine($"Curent Store Location after method is: {curStore.City}");
                     // StoreMenu(curStore, inventories);
                     // Order curOrder = new Order(curStore); 
@@ -201,7 +202,7 @@ namespace MelfsMagic
             Console.WriteLine($"Product Selected: {p.ElementAt(choice).Product.Name}.");
             Order tempOrder = new Order(cInv.Location);
             orderList.Add(tempOrder);
-
+            DbContext.SaveChanges();
 
             return cInv;
         }

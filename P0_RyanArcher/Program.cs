@@ -202,7 +202,7 @@ namespace MelfsMagic
             Console.WriteLine($"Product Selected: {p.ElementAt(choice).Product.Name}.");
             Order tempOrder = new Order(cInv.Location);
             orderList.Add(tempOrder);
-            DbContext.SaveChanges();
+            // DbContext.SaveChanges();
 
             return cInv;
         }

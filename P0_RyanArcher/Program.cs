@@ -6,27 +6,39 @@ namespace MelfsMagic
 {
     class Program
     {
+        static List<Order> orderList = new List<Order>();
+        // static Location curStore;
         static StoreRepositoryLayer storeContext = new StoreRepositoryLayer(); // create the context here to acceess it in all methods of this class
         // static int numberOfChoices = Enum.GetNames(typeof(Choice)).Length;
         static void Main(string[] args)
         {
+            
+            List<Location> storeList = new List<Location>();
+            List<Product> productList = new List<Product>();
+            List<Order> orders = new List<Order>();
             // User p1 = storeContext.CreateUser("Max", "HeadRoom", "test@email.net"); // create the computer
-            storeContext.ValidateLocationTable();
-            storeContext.ValidateProductTable();
-            storeContext.ValidateInventoryTable();
+            // storeContext.ValidateLocationTable();
+            // storeContext.ValidateProductTable();
+            // storeContext.ValidateInventoryTable(storeList, productList);
+            storeContext.PopulateDb();
             // storeContext.ValidateOrder();
 
             Console.WriteLine("Welcome to Melf's Magic Store \n\tWhich is now Online!\n\tIf anyone in D&D even has a computer.");
 
             // program loop starts here.
             int logInOrQuitInt;
-            Location curStore;
+            // Location curStore;
+            // get all db info and store in Lists.
+            List<Location> locations = storeContext.GetLocations();
+            List<User> users = storeContext.GetUsers();
+            List<Product> products = storeContext.GetProducts();
+            List<Inventory> inventories = storeContext.GetInventories();
+            // List<Order> orders = orderList.GetOrders();
             do
             {
                 //Menu to log in or quit. start loop for logged in user. exits when he logs out
-                logInOrQuitInt = MainMenu();
+                logInOrQuitInt = WelcomeMenu();
                 if (logInOrQuitInt == 2) { break; }
-
                 //log in or create a new user. unique fName and lName means create a new player, other wise, grab the existing player
                 string[] userNamesArray = GetUserNames();
 
@@ -41,7 +53,18 @@ namespace MelfsMagic
                 int response1Parsed;
                 do // Store Loop starts here.
                 {
+                    PrintUserData(users);
+                    
+                    Location curStore = LocationMenu(locations);
+                    // Console.WriteLine($"Curent Store Location after method is: {curStore.City}");
+                    // StoreMenu(curStore, inventories);
+                    // Order curOrder = new Order(curStore); 
+                    // orderList.Add(curOrder);
+                    // CartMenu(curStore, curOrder);
 
+
+
+                    // End of Loop
                     do {
                         Console.WriteLine("Do you want to shop again? Enter 1 to shop again, Enter 2 to Log out.");
                         string response1 = Console.ReadLine();
@@ -54,16 +77,10 @@ namespace MelfsMagic
             } while (logInOrQuitInt != 2); // log out
 
 
-            // get all inputted info and print it to the console.
-            List<User> users = storeContext.GetUsers();
-            List<Location> locations = storeContext.GetLocations();
-            List<Product> products = storeContext.GetProducts();
-            List<Inventory> inventories = storeContext.GetInventories();
-
-            PrintUserData(users);
+            // PrintUserData(users);
             // PrintLocationData(locations);
-            curStore = LocationMenu(locations);
-            StoreMenu(curStore, inventories);
+            // curStore = LocationMenu(locations);
+            // StoreMenu(curStore, inventories);
             // PrintProductData(products);
 
         }// END Main end
@@ -72,7 +89,7 @@ namespace MelfsMagic
         /// Gives the user the choice to log in or quit the program
         /// </summary>
         /// <returns></returns>
-        public static int MainMenu() {
+        public static int WelcomeMenu() {
             int logInOrQuitInt;
             do {
                 Console.WriteLine("Enter 1 to log in and 2 to quit the program.");
@@ -129,16 +146,14 @@ namespace MelfsMagic
 
         public static void PrintUserData(List<User> p)
         {
-            int i = 1;
+            // int i = 1;
             foreach (User user in p)
             {
-                Console.WriteLine($"\n\t\tUser {i++} - \nThe GUID is {user.UserId}.");
+                Console.WriteLine($"\n\t\tUser Profile for {user.Fname} {user.Lname}.");
                 Console.WriteLine($"\tFirst name is {user.Fname}.");
                 Console.WriteLine($"\tLast Name is {user.Lname}.");
-                Console.WriteLine($"\tE-mail Address is {user.Email}.");
+                Console.WriteLine($"\tE-mail Address is {user.Email}.\n");
                 // Console.WriteLine($"\tDefault Location is {user.DefaultStore}.");
-                // int[] winsAndLosses = player.GetWinLossRecord();
-                // Console.WriteLine($"\tThe players record is {winsAndLosses[0]} wins and {winsAndLosses[1]} losses");
             }
 
         }
@@ -165,18 +180,43 @@ namespace MelfsMagic
             return p.ElementAt(choice);
             // return Location[0];
         }
-        public static Inventory StoreMenu(Location curStore, List<Inventory> p) {
+        public static void StoreMenu(Location curStore, List<Inventory> p) {
+            // int i = 1;
+            Console.WriteLine($"\nWelcome to {curStore.City}");
+            // foreach(Inventory inventory in curStore.InventoryItems){
+            //     Console.WriteLine($"\t{i++} - {inventory.Product.Name} for ${inventory.Product.Price} - {inventory.Quantity} Left in Stock.");
+            // }
+            Inventory curItem = AddItem(curStore, p);
+        }
+
+        public static Inventory AddItem(Location curStore, List<Inventory> p) {
             int i = 1;
-            Console.WriteLine("\nSelect the store location:");
-            foreach (Inventory o in p)
-            {
-                Console.WriteLine($"\t{i++} - {o.ProductName}");
+            Console.WriteLine("Select the product you would like to add to cart:");
+            foreach (Inventory inventory in curStore.InventoryItems){
+                Console.WriteLine($"\t{i++} - {inventory.Product.Name} for ${inventory.Product.Price} - {inventory.Quantity} Left in Stock.");
             }
             string userChoice = Console.ReadLine();
             int choice = verifyNumber(userChoice, p.Count);
-            Console.WriteLine($"Product Selected: {p.ElementAt(choice).ProductName}.");
-            return p.ElementAt(choice);
-            // return Location[0];
+            Inventory cInv = p.ElementAt(choice);
+            Console.WriteLine($"Product Selected: {p.ElementAt(choice).Product.Name}.");
+            Order tempOrder = new Order(cInv.Location);
+            orderList.Add(tempOrder);
+
+
+            return cInv;
         }
+
+        // public static void CartMenu(Location store, Order order){
+        //     Console.WriteLine("Your Cart:");
+        //     foreach(Order o in orderList){
+        //         if(store == o.Location) {
+        //             Console.WriteLine($"Order Number {o.OrderId} from the {o.Location.City} store.");
+        //         }
+        //     }
+        // }
+
+
+
+
     }// END Class
 }// END namespace

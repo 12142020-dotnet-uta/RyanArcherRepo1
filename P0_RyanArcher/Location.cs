@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
 
 namespace MelfsMagic
 {
@@ -32,6 +33,8 @@ namespace MelfsMagic
                 }
             }
         }
+
+        public List<Inventory> InventoryItems {get;set;} = new List<Inventory>();
 
         /*[Key]
         public Guid RoundId = Guid.NewGuid();

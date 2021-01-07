@@ -38,8 +38,10 @@ namespace MelfsMagicStore_Web.Controllers
             //    Email = "",
             //    defaultStore = ""
             //};
+            //UserViewModel userViewModel = _businessLogicClass.LoginUser(loginUserViewModel);
 
-            return View("DisplayUserDetails", userViewModel);
+
+            return View("DisplayUserDetails"/*, userViewModel*/);
         }
 
         // GET: LoginController/Details/5

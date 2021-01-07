@@ -2,6 +2,7 @@ using BusinessLogicLayer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -28,6 +29,7 @@ namespace MelfsMagicStore_Web
             services.AddControllersWithViews();
             services.AddScoped<DbContextClass>();
             // services.AddScoped<IRepository, Repository>();
+            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<DbContextClass>();
             services.AddScoped<Repository>();
             services.AddScoped<BusinessLogicClass>();
         }
@@ -50,6 +52,7 @@ namespace MelfsMagicStore_Web
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

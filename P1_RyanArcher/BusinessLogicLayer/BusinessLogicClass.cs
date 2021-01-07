@@ -9,5 +9,7 @@ namespace BusinessLogicLayer
         public BusinessLogicClass(Repository repository) {
             _repository = repository;
         }
+
+        //public PlayerViewModel LoginPlayer()
     }
 }

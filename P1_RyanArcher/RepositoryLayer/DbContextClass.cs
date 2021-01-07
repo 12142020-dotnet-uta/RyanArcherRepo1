@@ -1,10 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using ModelLayer;
 using System;
 
 namespace RepositoryLayer
 {
-    public class DbContextClass : DbContext
+    public class DbContextClass :/* DbContext*/ IdentityDbContext
     {
         public DbSet<User> users { get; set; } // public so can be accessed in StoreRepositoryLayer.cs
         public DbSet<Location> Locations { get; set; }

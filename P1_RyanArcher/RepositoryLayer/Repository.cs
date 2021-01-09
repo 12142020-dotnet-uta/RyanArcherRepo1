@@ -29,6 +29,8 @@ namespace RepositoryLayer
             PopulateDb();
         }
 
+
+        //***** USER METHODS *****//
         public User LoginUser(User user)
         {
             User user1 = users.FirstOrDefault(x => x.Fname == user.Fname && x.Lname == user.Lname);
@@ -39,7 +41,7 @@ namespace RepositoryLayer
                 {
                     Fname = user.Fname,
                     Lname = user.Lname,
-                    DefaultStore = GetDefaultLocation()
+                    DefaultStoreId = GetDefaultLocationId()
                 };
                 users.Add(user1);
                 _dbContext.SaveChanges();
@@ -47,10 +49,10 @@ namespace RepositoryLayer
             return user1;
         }
 
-        public Location GetDefaultLocation()
+        public Guid GetDefaultLocationId()
         {
             Location defaultLocation = locations.FirstOrDefault();
-            return defaultLocation;
+            return defaultLocation.LocationId;
         }
 
         public List<User> GetAllUsers()
@@ -59,7 +61,7 @@ namespace RepositoryLayer
         }
         
 
-        // INVENTORY METHODS //
+        //***** INVENTORY METHODS *****//
         public List<Inventory> GetLocationProducts(Guid locationId)
         {
             List<Inventory> filteredInventories = new List<Inventory>();
@@ -73,7 +75,7 @@ namespace RepositoryLayer
             return filteredInventories;
         }
 
-        // LOCATION METHODS //
+        //***** LOCATION METHODS *****//
 
         public bool DoesLocationExist(Guid locationId)
         {

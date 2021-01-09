@@ -41,17 +41,11 @@ namespace RepositoryLayer.Migrations
                     Fname = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     Lname = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DefaultStoreLocationId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    DefaultStoreId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_users", x => x.UserId);
-                    table.ForeignKey(
-                        name: "FK_users_locations_DefaultStoreLocationId",
-                        column: x => x.DefaultStoreLocationId,
-                        principalTable: "locations",
-                        principalColumn: "LocationId",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -137,11 +131,6 @@ namespace RepositoryLayer.Migrations
                 name: "IX_orders_UserId",
                 table: "orders",
                 column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_users_DefaultStoreLocationId",
-                table: "users",
-                column: "DefaultStoreLocationId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -153,13 +142,13 @@ namespace RepositoryLayer.Migrations
                 name: "orders");
 
             migrationBuilder.DropTable(
+                name: "locations");
+
+            migrationBuilder.DropTable(
                 name: "products");
 
             migrationBuilder.DropTable(
                 name: "users");
-
-            migrationBuilder.DropTable(
-                name: "locations");
         }
     }
 }

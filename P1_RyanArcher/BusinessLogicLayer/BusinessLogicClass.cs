@@ -28,7 +28,7 @@ namespace BusinessLogicLayer
             {
                 Fname = loginUserViewModel.Fname,
                 Lname = loginUserViewModel.Lname,
-                DefaultStore = _repository.GetDefaultLocation()
+                DefaultStoreId = _repository.GetDefaultLocationId()
             };
 
             User user1 = _repository.LoginUser(user);

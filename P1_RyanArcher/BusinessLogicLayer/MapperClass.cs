@@ -18,7 +18,7 @@ namespace BusinessLogicLayer
                 Fname = user.Fname,
                 Lname = user.Lname,
                 Email = user.Email,
-                DefaultStoreId = user.DefaultStore.LocationId
+                DefaultStoreId = user.DefaultStoreId
                 //Image = ConvertByteArrayToJpgString(u.Image)
             };
             return userViewModel;

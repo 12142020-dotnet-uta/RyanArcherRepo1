@@ -10,7 +10,7 @@ using RepositoryLayer;
 namespace RepositoryLayer.Migrations
 {
     [DbContext(typeof(DbContextClass))]
-    [Migration("20210109010443_initial")]
+    [Migration("20210109152023_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -114,7 +114,7 @@ namespace RepositoryLayer.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("DefaultStoreLocationId")
+                    b.Property<Guid>("DefaultStoreId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Email")
@@ -131,8 +131,6 @@ namespace RepositoryLayer.Migrations
                         .HasColumnType("nvarchar(20)");
 
                     b.HasKey("UserId");
-
-                    b.HasIndex("DefaultStoreLocationId");
 
                     b.ToTable("users");
                 });
@@ -171,15 +169,6 @@ namespace RepositoryLayer.Migrations
                     b.Navigation("Product");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("ModelLayer.User", b =>
-                {
-                    b.HasOne("ModelLayer.Location", "DefaultStore")
-                        .WithMany()
-                        .HasForeignKey("DefaultStoreLocationId");
-
-                    b.Navigation("DefaultStore");
                 });
 
             modelBuilder.Entity("ModelLayer.Location", b =>

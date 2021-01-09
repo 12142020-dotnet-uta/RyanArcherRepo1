@@ -7,12 +7,13 @@ namespace ModelLayer
     public class User
     {
         public User(){}
-        public User(string fname = "null", string lname = "null", string email = "null")
+        public User(Guid defaultstoreId, string fname = "null", string lname = "null", string email = "null")
         {
             
             this.Email = email;
             this.Fname = fname;
             this.Lname = lname;
+            this.DefaultStoreId = defaultstoreId;
             // this.DefaultStore = 2;
             // "Chicago, IL"
         }
@@ -33,7 +34,7 @@ namespace ModelLayer
         [Display(Name = "Last Name")]
         public string Lname { get; set; }
         public string Email { get; set; }
-        public Location DefaultStore { get; set; }
+        public Guid DefaultStoreId { get; set; }
 
         //private string eMail;
         //public string Email {get{ return eMail; } 

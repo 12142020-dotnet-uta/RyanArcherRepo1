@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MelfsMagicTest.Migrations
 {
     [DbContext(typeof(StoreDbContext))]
-    [Migration("20201230054714_initial")]
-    partial class initial
+    [Migration("20201230171945_initialize")]
+    partial class initialize
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

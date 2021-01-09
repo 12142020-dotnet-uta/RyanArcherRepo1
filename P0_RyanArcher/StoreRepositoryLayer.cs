@@ -22,7 +22,7 @@ namespace MelfsMagic
         // Display all ProductNames of Current Store from Inventory
         public List<string> GetCurrentProductNames(){
             List<string> products = new List<string>();
-            // foreach(Inventory inventory in currentLocation.InventoryItems){
+            // Loops through the inventory items and stores them into a Products List for access.
             foreach(Inventory inventory in InventoryItems){
                 products.Add(inventory.Product.Name);
             }
@@ -36,19 +36,16 @@ namespace MelfsMagic
         public List<Inventory> InventoryItems {get;set;} = new List<Inventory>();
 
         /// <summary>
-        /// Creates a player after verifying that the player does not already exist. returns the player obj
+        /// Creates a user after verifying that the user does not already exist. returns the user obj
         /// </summary>
         /// <returns></returns>
-        public User CreateUser(string fName = "null", string lName = "null", string eMail = "..@email.net")
-        {
+        public User CreateUser(string fName = "null", string lName = "null", string eMail = "..@email.net") {
             User u1 = new User();
             u1 = users.Where(x => x.Fname == fName && x.Lname == lName).FirstOrDefault();
-            //p1 = DbContext.players.Where(x => x.Fname == fName && x.Lname == lName).FirstOrDefault();
 
-            if (u1 == null)
-            {
-                u1 = new User()
-                {
+            if (u1 == null) {
+                Console.WriteLine($"\nThere was not user with that name: Creating a new user for you.\nWelcome {fName} we own your soul now.\nHaha! Just kidding. That's only on Sacramental Soul Saturdays.");
+                u1 = new User() {
                     Email = eMail,
                     Fname = fName,
                     Lname = lName,
@@ -63,26 +60,20 @@ namespace MelfsMagic
 
 
         /// <summary>
-        /// Converts string input fornt he user to its int32 variant. If unsuccessful, returns -1
+        /// Converts string input form the user to its int32 variant if unsuccessful. Else it returns -1
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public int ConvertStringToInt(string input)
-        {
+        public int ConvertStringToInt(string input) {
             int result;
             bool logInOrQuitBool = int.TryParse(input, out result);
-            if (logInOrQuitBool == false)
-            {
+            if (logInOrQuitBool == false) {
                 return -1;
             }
-            else
-            {
+            else {
                 return result;
             }
         }
-
-
-
         /// <summary>
         /// returns all user objects in List<User>
         /// </summary>
@@ -93,7 +84,7 @@ namespace MelfsMagic
             return users.ToList();
         }
         /// <summary>
-        /// returns all location objects in List<Location>
+        /// Returns all location objects in to a List of Location objects.
         /// </summary>
         /// <returns></returns>
         public List<Location> GetLocations()
@@ -151,7 +142,7 @@ namespace MelfsMagic
                 DbContext.Products.Add(new Product("Melf's Minute Meteors", 1000, "You create six tiny meteors in your space."));
                 DbContext.Products.Add(new Product("Acid Arrow", 500, "A shimmering green arrow streaks toward a target within range and bursts in a spray of acid."));
                 DbContext.Products.Add(new Product("Unicorn Arrow", 600, "A translucent unicorn shape appears in midair and speeds toward the target of this spell."));
-                DbContext.Products.Add(new Product("Unicorn Arrow", 300, "A Book on Universal Astronomy. I'd tell you what''s in it, but no spoilers..."));
+                DbContext.Products.Add(new Product("Universal Astronomy", 300, "A Book on Universal Astronomy. I'd tell you what''s in it, but no spoilers..."));
                 DbContext.Products.Add(new Product("Weapons of the Ether", 300, "A Book on Weapons of the Either. I''d tell you what''s in it, but no spoilers..."));
             }
             DbContext.SaveChanges();
@@ -160,53 +151,19 @@ namespace MelfsMagic
                 productList.Add(store);
             }
         }
-        
+
+        public void SaveChanges() {
+            DbContext.SaveChanges();
+        }
+
         /// <summary>
-        /// Checks to see if Inventory Table in Database is Empty
-        /// If it is Empty populate with Data
-        /// </summary>        
-        // public void ValidateInventoryTable(List<Location> st, List<Product> prod) {
-        //     if (DbContext.Inventories.Count() == 0)
-        //     {
-        //         Console.WriteLine("Inventories Table Is Empty.");
-        //         foreach(Location o in st) {
-        //             foreach(Product y in prod) {
-        //                 DbContext.Inventories.Add(new Inventory(o.City, y.Name, 50));
-        //                 Console.WriteLine($"Adding {y.Name} to {o.City}");
-        //             }
-        //         }
-        //         // foreach(Location o in store) {
-        //         //     foreach(Product y in prod) {
-        //         //         DbContext.Inventories.Add(new Inventory(o.LocationId, y.ProductId, 50));
-        //         //     }
-        //         // }
-        //         // DbContext.products.Add(new Product("Acid Arrow", 500, "A shimmering green arrow streaks toward a target within range and bursts in a spray of acid."));
-        //         // DbContext.products.Add(new Product("Unicorn Arrow", 600, "A translucent unicorn shape appears in midair and speeds toward the target of this spell."));
-        //         // DbContext.products.Add(new Product("Unicorn Arrow", 300, "A Book on Universal Astronomy. I'd tell you what''s in it, but no spoilers..."));
-        //         // DbContext.products.Add(new Product("Weapons of the Ether", 300, "A Book on Weapons of the Either. I''d tell you what''s in it, but no spoilers..."));
-        //     }
-        //     DbContext.SaveChanges();
-        //     foreach (Inventory store in DbContext.Inventories) {
-        //         inventoryList.Add(store);
-        //     }
-        // }
+        /// Calls all of the Methods Which Populate the Database with data if there is not already data in their respective table.
+        /// </summary>
         public void PopulateDb(){
             ValidateLocationTable();
             ValidateProductTable();
-            // if(DbContext.Locations.Count()<1){
-            //     for(int i = 0;i<3;i++){
-            //         AddLocationToDb("Store "+i);
-            //     }
-            // }
-            // if(DbContext.Products.Count()<1){
-            //     for(int i = 0;i<3;i++){
-            //         AddProductToDb("Product "+i,i+1,"Something Special");
-            //     }
-            // }
-            // Restock Stores
             if (DbContext.Inventories.Count() == 0){
                 foreach(Location store in DbContext.Locations.ToList()){
-                    // if(DbContext.Inventories.Count() == 0){
                     if(store.InventoryItems.Count()<1){
                         foreach(Product product in DbContext.Products.ToList()){
                             AddInventoryItem(store, product,10);
@@ -216,6 +173,13 @@ namespace MelfsMagic
             }
         }
 
+        /// <summary>
+        /// Adds the selected Inventory Item to the Orders table in Context.
+        /// </summary>
+        /// <param name="store"></param>
+        /// <param name="product"></param>
+        /// <param name="amount"></param>
+        /// <returns></returns>
         public bool AddInventoryItem(Location store,Product product,int amount) {
             Inventory stockItem = new Inventory{
                 Location = store,

@@ -23,7 +23,7 @@ namespace MelfsMagic
             storeContext.PopulateDb();
             // storeContext.ValidateOrder();
 
-            Console.WriteLine("Welcome to Melf's Magic Store \n\tWhich is now Online!\n\tIf anyone in D&D even has a computer.");
+            Console.WriteLine("\n\n\nWelcome to Melf's Magic Store \n\tWhich is now Online!\n\tIf anyone in D&D even has a computer.\n");
 
             // program loop starts here.
             int logInOrQuitInt;
@@ -76,6 +76,7 @@ namespace MelfsMagic
                     } while (response1Parsed != 1 && response1Parsed != 2); // shop again or quit.
                 } while (response1Parsed == 1);// end of the main loop.
             } while (logInOrQuitInt != 2); // log out
+            Console.WriteLine("\n\t\tHave a Magical Day!!!\n\n");
 
 
             // PrintUserData(users);
@@ -168,6 +169,14 @@ namespace MelfsMagic
             }
             LocationMenu(p);
         }
+
+        /// <summary>
+        /// Prints to the console a list of all the locations from the Locations List
+        /// Associates a number option with each location listed
+        /// Recieves User Input and returns the selected Location object to the Main Program. 
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
         public static Location LocationMenu(List<Location> p) {
             int i = 1;
             Console.WriteLine("\nSelect the store location:");
@@ -179,8 +188,9 @@ namespace MelfsMagic
             int choice = verifyNumber(userChoice, p.Count);
             Console.WriteLine($"Location Selected: {p.ElementAt(choice).City}.");
             return p.ElementAt(choice);
-            // return Location[0];
         }
+
+
         public static void StoreMenu(Location curStore, List<Inventory> p) {
             // int i = 1;
             Console.WriteLine($"\nWelcome to {curStore.City}");
@@ -199,10 +209,12 @@ namespace MelfsMagic
             string userChoice = Console.ReadLine();
             int choice = verifyNumber(userChoice, p.Count);
             Inventory cInv = p.ElementAt(choice);
-            Console.WriteLine($"Product Selected: {p.ElementAt(choice).Product.Name}.");
+            Console.WriteLine($"Product Selected: {cInv.Product.Name}.");
             Order tempOrder = new Order(cInv.Location);
             orderList.Add(tempOrder);
-            // DbContext.SaveChanges();
+            storeContext.SaveChanges();
+            CartMenu(cInv);
+            
 
             return cInv;
         }
@@ -215,6 +227,10 @@ namespace MelfsMagic
         //         }
         //     }
         // }
+
+        public static void CartMenu(Inventory item) {
+            Console.WriteLine($"\n\t\tYour Cart:\nYou Purchased:\n\t 1 - {item.Product.Name} for ${item.Product.Price}\nCart Total: ${item.Product.Price}\n");
+        }
 
 
 

@@ -10,7 +10,7 @@ using RepositoryLayer;
 namespace RepositoryLayer.Migrations
 {
     [DbContext(typeof(DbContextClass))]
-    [Migration("20210107040126_initial")]
+    [Migration("20210109010443_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,10 +23,9 @@ namespace RepositoryLayer.Migrations
 
             modelBuilder.Entity("ModelLayer.Inventory", b =>
                 {
-                    b.Property<int>("InventoryId")
+                    b.Property<Guid>("InventoryId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("LocationId")
                         .HasColumnType("uniqueidentifier");
@@ -43,7 +42,7 @@ namespace RepositoryLayer.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("Inventories");
+                    b.ToTable("inventories");
                 });
 
             modelBuilder.Entity("ModelLayer.Location", b =>
@@ -57,7 +56,36 @@ namespace RepositoryLayer.Migrations
 
                     b.HasKey("LocationId");
 
-                    b.ToTable("Locations");
+                    b.ToTable("locations");
+                });
+
+            modelBuilder.Entity("ModelLayer.Order", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("LocationId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("ProductId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Total")
+                        .HasColumnType("int");
+
+                    b.Property<Guid?>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LocationId");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("orders");
                 });
 
             modelBuilder.Entity("ModelLayer.Product", b =>
@@ -72,18 +100,21 @@ namespace RepositoryLayer.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Price")
-                        .HasColumnType("int");
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("ProductId");
 
-                    b.ToTable("Products");
+                    b.ToTable("products");
                 });
 
             modelBuilder.Entity("ModelLayer.User", b =>
                 {
                     b.Property<Guid>("UserId")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("DefaultStoreLocationId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Email")
@@ -99,10 +130,9 @@ namespace RepositoryLayer.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
-                    b.Property<string>("defaultStore")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("UserId");
+
+                    b.HasIndex("DefaultStoreLocationId");
 
                     b.ToTable("users");
                 });
@@ -120,6 +150,36 @@ namespace RepositoryLayer.Migrations
                     b.Navigation("Location");
 
                     b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("ModelLayer.Order", b =>
+                {
+                    b.HasOne("ModelLayer.Location", "Location")
+                        .WithMany()
+                        .HasForeignKey("LocationId");
+
+                    b.HasOne("ModelLayer.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId");
+
+                    b.HasOne("ModelLayer.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("Location");
+
+                    b.Navigation("Product");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("ModelLayer.User", b =>
+                {
+                    b.HasOne("ModelLayer.Location", "DefaultStore")
+                        .WithMany()
+                        .HasForeignKey("DefaultStoreLocationId");
+
+                    b.Navigation("DefaultStore");
                 });
 
             modelBuilder.Entity("ModelLayer.Location", b =>

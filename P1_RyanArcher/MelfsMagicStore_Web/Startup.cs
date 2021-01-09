@@ -29,9 +29,10 @@ namespace MelfsMagicStore_Web
             services.AddControllersWithViews();
             services.AddScoped<DbContextClass>();
             // services.AddScoped<IRepository, Repository>();
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<DbContextClass>();
+            //services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<DbContextClass>();
             services.AddScoped<Repository>();
             services.AddScoped<BusinessLogicClass>();
+            services.AddScoped<MapperClass>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ModelLayer
 {
@@ -17,31 +18,37 @@ namespace ModelLayer
         [Key]
         public Guid ProductId { get{ return productID; } set{ productID = value;} }
 
-        private string name;
-        public string Name {get{ return name; } 
-            set {
-            if (value is string && value.Length < 200 && value.Length > 0) {
-                    name = value;
-                } else {throw new Exception("The product name is not valid");}
-            }
-        }
-        private int price;
-        public int Price {get{ return price; } 
-            set {
-                price = value;
-            // if (int.TryParse(value) && value.Length < 20 && value.Length > 0) {
-            //         name = value;
-            //     } else {throw new Exception("The product name is not valid");}
-            }
-        }
-        private string description;
-        public string Description {get{ return description; } 
-            set {
-            // if (value is string && value.Length < 20 && value.Length > 0) {
-                    description = value;
-                // } else {throw new Exception("The product description is not valid");}
-            }
-        }
+        [Display(Name = "Product Name")]
+        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Use Letters only please")]
+        public string Name { get; set; }
+        //public string Name {get{ return name; } 
+        //    set {
+        //    if (value is string && value.Length < 200 && value.Length > 0) {
+        //            name = value;
+        //        } else {throw new Exception("The product name is not valid");}
+        //    }
+        //}
+        [Display(Name = "Price")]
+        [Range(0,double.MaxValue)]
+        [Column(TypeName = "decimal(18, 2)")]
+        public double Price { get; set; }
+        //public int Price {get{ return price; } 
+        //    set {
+        //        price = value;
+        //    // if (int.TryParse(value) && value.Length < 20 && value.Length > 0) {
+        //    //         name = value;
+        //    //     } else {throw new Exception("The product name is not valid");}
+        //    }
+        //}
+        [Display(Name = "Description")]
+        public string Description { get; set; }
+        //public string Description {get{ return description; } 
+        //    set {
+        //    // if (value is string && value.Length < 20 && value.Length > 0) {
+        //            description = value;
+        //        // } else {throw new Exception("The product description is not valid");}
+        //    }
+        //}
 
 
         /*[Key]

@@ -33,7 +33,7 @@ namespace ModelLayer
         [Display(Name = "Last Name")]
         public string Lname { get; set; }
         public string Email { get; set; }
-        public string defaultStore { get; set; }
+        public Location DefaultStore { get; set; }
 
         //private string eMail;
         //public string Email {get{ return eMail; } 

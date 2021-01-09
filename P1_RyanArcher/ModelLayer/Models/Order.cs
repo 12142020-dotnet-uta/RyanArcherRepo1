@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModelLayer
@@ -5,7 +6,7 @@ namespace ModelLayer
     public class Order
     {
         [Key]
-        public int Id{get;set;}
+        public Guid Id{get;set;}
         public User User {get;set;}
         public int Total {get;set;}
         // FK

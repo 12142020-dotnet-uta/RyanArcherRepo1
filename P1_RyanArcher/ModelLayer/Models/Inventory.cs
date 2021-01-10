@@ -11,8 +11,8 @@ namespace ModelLayer
         public int Quantity {get;set;}
 
         // FK
-        public Location Location {get;set;}
-        public Product Product {get;set;}
+        public Guid LocationId {get;set;}
+        public Guid ProductId {get;set;}
 
         // private Guid inventoryID = Guid.NewGuid();
         // [Key]

@@ -31,9 +31,11 @@
                 @Html.DisplayFor(modelItem => item.City)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                @Html.ActionLink("Shop Store", "ShowLocationInventory", new { id = item.LocationId })
+                @*@Html.ActionLink("Shop Store", "ShowLocationInventory", "Location", new { id = item.LocationId }, null)*@
+                @*|
+        @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+        @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })*@
             </td>
         </tr>
 }

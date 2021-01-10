@@ -25,10 +25,10 @@ namespace RepositoryLayer.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("LocationId")
+                    b.Property<Guid>("LocationId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("ProductId")
+                    b.Property<Guid>("ProductId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Quantity")
@@ -37,8 +37,6 @@ namespace RepositoryLayer.Migrations
                     b.HasKey("InventoryId");
 
                     b.HasIndex("LocationId");
-
-                    b.HasIndex("ProductId");
 
                     b.ToTable("inventories");
                 });
@@ -135,17 +133,11 @@ namespace RepositoryLayer.Migrations
 
             modelBuilder.Entity("ModelLayer.Inventory", b =>
                 {
-                    b.HasOne("ModelLayer.Location", "Location")
+                    b.HasOne("ModelLayer.Location", null)
                         .WithMany("InventoryItems")
-                        .HasForeignKey("LocationId");
-
-                    b.HasOne("ModelLayer.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId");
-
-                    b.Navigation("Location");
-
-                    b.Navigation("Product");
+                        .HasForeignKey("LocationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("ModelLayer.Order", b =>

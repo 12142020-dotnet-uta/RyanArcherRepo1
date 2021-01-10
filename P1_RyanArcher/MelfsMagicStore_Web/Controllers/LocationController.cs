@@ -26,5 +26,12 @@ namespace MelfsMagicStore_Web.Controllers
             List<LocationViewModel> listOfLocations = _businessLogicClass.GetAllLocationViewModels();
             return View(listOfLocations);
         }
+
+        public ActionResult ShowLocationInventory(Guid locationId)
+        {
+            Guid newLocationId = Guid.Parse("a7ebefbb-b7cb-423a-ac62-03bbaf9d2062");
+            List<InventoryViewModel> listOfProductsInStore = _businessLogicClass.GetAllStoreProductViewModels(/*newLocationId/**/locationId/**/);
+            return View(listOfProductsInStore);
+        }
     }
 }

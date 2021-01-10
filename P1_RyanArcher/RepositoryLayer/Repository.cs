@@ -61,13 +61,17 @@ namespace RepositoryLayer
         }
         
 
-        //***** INVENTORY METHODS *****//
+                        //***** INVENTORY METHODS *****//
+        public List<Inventory> GetAllInventories() {
+            return inventories.ToList();
+        }
+
         public List<Inventory> GetLocationProducts(Guid locationId)
         {
             List<Inventory> filteredInventories = new List<Inventory>();
             foreach (Inventory x in inventories)
             {
-                if(x.Location.LocationId == locationId)
+                if(x.LocationId == locationId)
                 {
                     filteredInventories.Add(x);
                 }
@@ -75,7 +79,9 @@ namespace RepositoryLayer
             return filteredInventories;
         }
 
-        //***** LOCATION METHODS *****//
+
+
+                        //***** LOCATION METHODS *****//
 
         public bool DoesLocationExist(Guid locationId)
         {
@@ -91,6 +97,27 @@ namespace RepositoryLayer
         public List<Location> GetAllLocations()
         {
             return locations.ToList();
+        }
+
+
+
+                        //***** PRODUCT METHODS *****//
+        public List<Product> GetAllProducts()
+        {
+            return products.ToList();
+        }
+
+        public Product GetProductById(Guid productId)
+        {
+            Product product = new Product();
+            foreach (Product x in products)
+            {
+                if (x.ProductId == productId)
+                {
+                    product = x;
+                }
+            }
+            return product;
         }
 
 
@@ -193,8 +220,8 @@ namespace RepositoryLayer
         {
             Inventory stockItem = new Inventory
             {
-                Location = store,
-                Product = product,
+                LocationId = store.LocationId,
+                ProductId = product.ProductId,
                 Quantity = amount
             };
             inventories.Add(stockItem);

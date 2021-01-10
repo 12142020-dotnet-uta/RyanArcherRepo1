@@ -1,5 +1,6 @@
 ﻿using ModelLayer.ViewModels;
 using ModelLayer;
+using RepositoryLayer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,11 @@ namespace BusinessLogicLayer
 {
     public class MapperClass
     {
+        //private readonly BusinessLogicClass _businessLogicClass;
+        //public MapperClass(BusinessLogicClass businessLogicClass)
+        //{
+        //    _businessLogicClass = businessLogicClass;
+        //}
         public UserViewModel ConvertUserToUserViewModel(User user)
         {
             UserViewModel userViewModel = new UserViewModel()
@@ -29,17 +35,19 @@ namespace BusinessLogicLayer
         /// </summary>
         /// <param name="inventory"></param>
         /// <returns></returns>
-        public InventoryViewModel ConvertInventoryToInventoryViewModel(Inventory inventory)
+        public InventoryViewModel ConvertInventoryToInventoryViewModel(Inventory inventory, Product product)
         {
+            //Product product = _businessLogicClass.GetProductById(inventory.ProductId);
             InventoryViewModel inventoryViewModel = new InventoryViewModel()
             {
                 InventoryId = inventory.InventoryId,
                 Quantity = inventory.Quantity,
-                LocationId = inventory.Location.LocationId,
-                ProductId = inventory.Product.ProductId,
-                Name = inventory.Product.Name,
-                Price = inventory.Product.Price,
-                Description = inventory.Product.Description
+                LocationId = inventory.LocationId,
+                ProductId = inventory.ProductId,
+                Name = product.Name,
+                Price = product.Price,
+                Description = product.Description
+
             };
             return inventoryViewModel;
         }

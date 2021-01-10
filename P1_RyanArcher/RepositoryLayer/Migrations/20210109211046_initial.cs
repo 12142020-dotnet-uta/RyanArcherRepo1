@@ -54,8 +54,8 @@ namespace RepositoryLayer.Migrations
                 {
                     InventoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Quantity = table.Column<int>(type: "int", nullable: false),
-                    LocationId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    LocationId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -65,13 +65,7 @@ namespace RepositoryLayer.Migrations
                         column: x => x.LocationId,
                         principalTable: "locations",
                         principalColumn: "LocationId",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_inventories_products_ProductId",
-                        column: x => x.ProductId,
-                        principalTable: "products",
-                        principalColumn: "ProductId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -111,11 +105,6 @@ namespace RepositoryLayer.Migrations
                 name: "IX_inventories_LocationId",
                 table: "inventories",
                 column: "LocationId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_inventories_ProductId",
-                table: "inventories",
-                column: "ProductId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_orders_LocationId",

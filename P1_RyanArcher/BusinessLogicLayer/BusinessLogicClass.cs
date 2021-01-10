@@ -58,7 +58,7 @@ namespace BusinessLogicLayer
             List<InventoryViewModel> locationInventoryViewModels = new List<InventoryViewModel>();
             foreach (Inventory x in locationInventories)
             {
-                InventoryViewModel inventoryViewModel = _mapperClass.ConvertInventoryToInventoryViewModel(x);
+                InventoryViewModel inventoryViewModel = _mapperClass.ConvertInventoryToInventoryViewModel(x, GetProductById(x.ProductId));
                 locationInventoryViewModels.Add(inventoryViewModel);
             }
             return locationInventoryViewModels;
@@ -88,6 +88,27 @@ namespace BusinessLogicLayer
             return allLocationViewModels;
         }
 
+        public List<InventoryViewModel> GetAllStoreProductViewModels(Guid locationId)
+        {
+            List<Inventory> allInventories = _repository.GetAllInventories();
+            List<InventoryViewModel> allLocationInventories = new List<InventoryViewModel>();
+            foreach (Inventory x in allInventories)
+            {
+                if(x.LocationId == locationId)
+                {
+                    InventoryViewModel inventoryViewModel = _mapperClass.ConvertInventoryToInventoryViewModel(x, GetProductById(x.ProductId));
+                    allLocationInventories.Add(inventoryViewModel);
+                }
+            }
+
+            return allLocationInventories;
+        }
         //public PlayerViewModel LoginPlayer()
+
+
+        public Product GetProductById(Guid productId)
+        {
+            return _repository.GetProductById(productId);
+        }
     }
 }

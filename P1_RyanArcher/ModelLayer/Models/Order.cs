@@ -6,17 +6,20 @@ namespace ModelLayer
     public class Order
     {
         [Key]
-        public Guid Id{get;set;}
-        public User User {get;set;}
+        public Guid OrderId{get;set;}
+        public Guid UserId {get;set;}
         public int Total {get;set;}
         // FK
-        public Location Location {get;set;}
-        public Product Product {get;set;}
-        
+        public Guid LocationId {get;set;}
+        public Guid ProductId {get;set; }
+        public Guid CartId { get; set; }
+
         public Order(){}
 
-        public Order(Location store) {
-            this.Location = store;
+        public Order(Location store, User user, Product product) {
+            this.OrderId = user.UserId;
+            this.LocationId = store.LocationId;
+            this.ProductId = product.ProductId;
         }
     }
 }

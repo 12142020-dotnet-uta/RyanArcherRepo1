@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace ModelLayer.ViewModels
 {
-    public class OrderViewModel
+    public class CartViewModel
     {
-        public Guid Id { get; set; }
         public Guid CartId { get; set; }
+        public Guid StoreId { get; set; }
         public Guid UserId { get; set; }
-        public int Total { get; set; }
-        // FK
-        public Guid LocationId { get; set; }
-        public Guid ProductId { get; set; }
+        public string CartStatus { get; set; }
+
+        // List of Order Items in Cart
+        public List<Order> OrderItems { get; set; } = new List<Order>();
     }
 }

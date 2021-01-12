@@ -8,6 +8,20 @@ namespace RepositoryLayer.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "carts",
+                columns: table => new
+                {
+                    CartId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    StoreId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CartStatus = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_carts", x => x.CartId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "locations",
                 columns: table => new
                 {
@@ -49,6 +63,28 @@ namespace RepositoryLayer.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "orders",
+                columns: table => new
+                {
+                    OrderId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Total = table.Column<int>(type: "int", nullable: false),
+                    LocationId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CartId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_orders", x => x.OrderId);
+                    table.ForeignKey(
+                        name: "FK_orders_carts_CartId",
+                        column: x => x.CartId,
+                        principalTable: "carts",
+                        principalColumn: "CartId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "inventories",
                 columns: table => new
                 {
@@ -68,58 +104,15 @@ namespace RepositoryLayer.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "orders",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    Total = table.Column<int>(type: "int", nullable: false),
-                    LocationId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_orders", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_orders_locations_LocationId",
-                        column: x => x.LocationId,
-                        principalTable: "locations",
-                        principalColumn: "LocationId",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_orders_products_ProductId",
-                        column: x => x.ProductId,
-                        principalTable: "products",
-                        principalColumn: "ProductId",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_orders_users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "users",
-                        principalColumn: "UserId",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
             migrationBuilder.CreateIndex(
                 name: "IX_inventories_LocationId",
                 table: "inventories",
                 column: "LocationId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_orders_LocationId",
+                name: "IX_orders_CartId",
                 table: "orders",
-                column: "LocationId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_orders_ProductId",
-                table: "orders",
-                column: "ProductId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_orders_UserId",
-                table: "orders",
-                column: "UserId");
+                column: "CartId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -131,13 +124,16 @@ namespace RepositoryLayer.Migrations
                 name: "orders");
 
             migrationBuilder.DropTable(
-                name: "locations");
-
-            migrationBuilder.DropTable(
                 name: "products");
 
             migrationBuilder.DropTable(
                 name: "users");
+
+            migrationBuilder.DropTable(
+                name: "locations");
+
+            migrationBuilder.DropTable(
+                name: "carts");
         }
     }
 }

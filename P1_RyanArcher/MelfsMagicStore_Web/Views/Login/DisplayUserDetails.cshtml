@@ -43,6 +43,7 @@
     </dl>
 </div>
 <div>
+    <a asp-controller="User" asp-action="EditUser" asp-route-userGuid="model.UserID" method="get">Edit This UserPlayer</a>
     @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
     <a asp-action="Index">Back to List</a>
 </div>

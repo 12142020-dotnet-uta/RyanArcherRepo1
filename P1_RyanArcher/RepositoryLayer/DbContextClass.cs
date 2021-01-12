@@ -12,6 +12,7 @@ namespace RepositoryLayer
         public DbSet<Product> products { get; set; }
         public DbSet<Order> orders { get; set; }
         public DbSet<Inventory> inventories { get; set; }
+        public DbSet<Cart> carts { get; set; }
 
         public DbContextClass() { }
         public DbContextClass(DbContextOptions options) : base(options) { }

@@ -16,6 +16,7 @@ namespace RepositoryLayer
         DbSet<Order> orders;
         DbSet<Product> products;
         DbSet<Inventory> inventories;
+        DbSet<Cart> carts;
 
         // For Testing Populating Database
         //List<Location> storeList = new List<Location>();
@@ -26,11 +27,40 @@ namespace RepositoryLayer
             this.orders = _dbContext.orders;
             this.products = _dbContext.products;
             this.inventories = _dbContext.inventories;
+            this.carts = _dbContext.carts;
             PopulateDb();
         }
 
 
         //***** USER METHODS *****//
+        public User GetUserById(Guid userId)
+        {
+            User user = users.FirstOrDefault(x => x.UserId == userId);// check if the user is in the Db
+            return user;
+        }
+
+        /// <summary>
+        /// Takes a User and returns the edited version of the User after saving it to the Db.
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public User EditUser(User user)
+        {
+            // search Db for the user
+            User user1 = GetUserById(user.UserId);
+
+            // transfer over all the new values
+            user1.Fname = user.Fname;
+            user1.Lname = user.Lname;
+            user1.DefaultStoreId = user.DefaultStoreId;
+            user1.Email = user.Email;
+            _dbContext.SaveChanges();
+
+            // search the User again to verify that the new User is in the Db
+            User user2 = GetUserById(user1.UserId);
+            // return the edited User
+            return user2;
+        }
         public User LoginUser(User user)
         {
             User user1 = users.FirstOrDefault(x => x.Fname == user.Fname && x.Lname == user.Lname);
@@ -93,15 +123,26 @@ namespace RepositoryLayer
                 return false;
             }
         }
-
         public List<Location> GetAllLocations()
         {
             return locations.ToList();
         }
+        public Location GetLocationById(Guid locationtId)
+        {
+            Location location = new Location();
+            foreach (Location x in locations)
+            {
+                if (x.LocationId == locationtId)
+                {
+                    location = x;
+                }
+            }
+            return location;
+        }
 
 
 
-                        //***** PRODUCT METHODS *****//
+        //***** PRODUCT METHODS *****//
         public List<Product> GetAllProducts()
         {
             return products.ToList();
@@ -119,6 +160,33 @@ namespace RepositoryLayer
             }
             return product;
         }
+
+
+
+        //***** ORDER METHODS *****//
+        public List<Order> GetAllOrders()
+        {
+            return orders.ToList();
+        }
+
+        public Order GetOrderById(Guid orderId)
+        {
+            Order order = new Order();
+            foreach (Order x in orders)
+            {
+                if (x.OrderId == orderId)
+                {
+                    order = x;
+                }
+            }
+            return order;
+        }
+
+        public List<Cart> GetAllCarts()
+        {
+            return carts.ToList();
+        }
+
 
 
 
@@ -225,6 +293,21 @@ namespace RepositoryLayer
                 Quantity = amount
             };
             inventories.Add(stockItem);
+            SaveChanges();
+            return true;
+        }
+
+
+        public bool AddOrderItem(Location store, Product product, User user, Cart cart)
+        {
+            Order orderItem = new Order
+            {
+                LocationId = store.LocationId,
+                UserId = user.UserId,
+                ProductId = product.ProductId,
+                CartId = cart.CartId
+            };
+            orders.Add(orderItem);
             SaveChanges();
             return true;
         }

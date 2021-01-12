@@ -32,6 +32,15 @@
             </td>
             <td>
                 @Html.ActionLink("Shop Store", "ShowLocationInventory", new { id = item.LocationId })
+                @*<a asp-controller="Location" asp-action="ViewStore" asp-route-locationId="@item.LocationId" method="get">Edit This Player</a>
+        <a asp-controller="Location" asp-action="SetStoreView" asp-route-value="@Url.RouteUrl(ViewContext.RouteData.Values)">New Route</a>
+        <a asp-controller="Location"
+           asp-action="ShowLocationInventory"
+           asp-route-id="@item.LocationId">StoreId: @item.LocationId</a>*@
+
+                <a asp-controller="Location"
+                   asp-action="ShowLocationInventory"
+                   asp-route-id="@item.LocationId">SpeakerId: @item.LocationId</a>
                 @*@Html.ActionLink("Shop Store", "ShowLocationInventory", "Location", new { id = item.LocationId }, null)*@
                 @*|
         @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |

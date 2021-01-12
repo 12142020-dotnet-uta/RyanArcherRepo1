@@ -57,9 +57,20 @@ namespace MelfsMagicStore_Web.Controllers
         }
 
         // GET: UserController/Edit/5
-        public ActionResult Edit(int id)
+        //public ActionResult Edit(int id)
+        //{
+        //    return View();
+        //}
+
+        [HttpPost]
+        [ActionName("EditedUser")]
+        public ActionResult EditUser(UserViewModel userViewModel)
         {
-            return View();
+            if (!ModelState.IsValid) { return View(userViewModel); }
+
+            // call a method on BusinessLogic Layer that will take a playerId and return a PlayerView Model
+            UserViewModel newUserViewModel = _businessLogicClass.EditedUser(userViewModel);
+            return View("DisplayPlayerDetails", newUserViewModel);
         }
 
         // POST: UserController/Edit/5

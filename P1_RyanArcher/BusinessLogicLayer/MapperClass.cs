@@ -35,7 +35,7 @@ namespace BusinessLogicLayer
         /// </summary>
         /// <param name="inventory"></param>
         /// <returns></returns>
-        public InventoryViewModel ConvertInventoryToInventoryViewModel(Inventory inventory, Product product)
+        public InventoryViewModel ConvertInventoryToInventoryViewModel(Inventory inventory, Product product, Location location)
         {
             //Product product = _businessLogicClass.GetProductById(inventory.ProductId);
             InventoryViewModel inventoryViewModel = new InventoryViewModel()
@@ -44,6 +44,7 @@ namespace BusinessLogicLayer
                 Quantity = inventory.Quantity,
                 LocationId = inventory.LocationId,
                 ProductId = inventory.ProductId,
+                StoreName = location.City,
                 Name = product.Name,
                 Price = product.Price,
                 Description = product.Description
@@ -60,6 +61,32 @@ namespace BusinessLogicLayer
                 City = location.City
             };
             return locationViewModel;
+        }
+
+        public OrderViewModel ConvertOrderToOrderViewModel(Order order)
+        {
+            OrderViewModel orderViewModel = new OrderViewModel()
+            {
+                Id = order.OrderId,
+                CartId = order.CartId,
+                UserId = order.UserId,
+                Total = order.Total,
+                LocationId = order.LocationId,
+                ProductId = order.ProductId
+            };
+            return orderViewModel;
+        }
+
+        public CartViewModel ConvertCartToCartViewModel(Cart cart)
+        {
+            CartViewModel cartViewModel = new CartViewModel()
+            {
+                CartId = cart.CartId,
+                StoreId = cart.StoreId,
+                UserId = cart.UserId,
+                CartStatus = cart.CartStatus
+            };
+            return cartViewModel;
         }
     }
 }

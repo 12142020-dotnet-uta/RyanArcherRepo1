@@ -19,5 +19,7 @@ namespace ModelLayer.ViewModels
         [Required]
         [Display(Name = "Last Name")]
         public string Lname { get; set; }
+
+        public Guid UserId { get; set; }
     }
 }

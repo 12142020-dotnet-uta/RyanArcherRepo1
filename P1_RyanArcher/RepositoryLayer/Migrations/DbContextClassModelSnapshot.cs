@@ -19,6 +19,26 @@ namespace RepositoryLayer.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.1");
 
+            modelBuilder.Entity("ModelLayer.Cart", b =>
+                {
+                    b.Property<Guid>("CartId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("CartStatus")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("StoreId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("CartId");
+
+                    b.ToTable("carts");
+                });
+
             modelBuilder.Entity("ModelLayer.Inventory", b =>
                 {
                     b.Property<Guid>("InventoryId")
@@ -57,29 +77,28 @@ namespace RepositoryLayer.Migrations
 
             modelBuilder.Entity("ModelLayer.Order", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("OrderId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("LocationId")
+                    b.Property<Guid>("CartId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("ProductId")
+                    b.Property<Guid>("LocationId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ProductId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Total")
                         .HasColumnType("int");
 
-                    b.Property<Guid?>("UserId")
+                    b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("Id");
+                    b.HasKey("OrderId");
 
-                    b.HasIndex("LocationId");
-
-                    b.HasIndex("ProductId");
-
-                    b.HasIndex("UserId");
+                    b.HasIndex("CartId");
 
                     b.ToTable("orders");
                 });
@@ -142,23 +161,16 @@ namespace RepositoryLayer.Migrations
 
             modelBuilder.Entity("ModelLayer.Order", b =>
                 {
-                    b.HasOne("ModelLayer.Location", "Location")
-                        .WithMany()
-                        .HasForeignKey("LocationId");
+                    b.HasOne("ModelLayer.Cart", null)
+                        .WithMany("OrderItems")
+                        .HasForeignKey("CartId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
 
-                    b.HasOne("ModelLayer.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId");
-
-                    b.HasOne("ModelLayer.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("Location");
-
-                    b.Navigation("Product");
-
-                    b.Navigation("User");
+            modelBuilder.Entity("ModelLayer.Cart", b =>
+                {
+                    b.Navigation("OrderItems");
                 });
 
             modelBuilder.Entity("ModelLayer.Location", b =>

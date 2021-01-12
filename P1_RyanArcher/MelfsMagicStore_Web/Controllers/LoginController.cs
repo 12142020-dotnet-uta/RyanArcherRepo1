@@ -17,6 +17,13 @@ namespace MelfsMagicStore_Web.Controllers
             _businessLogicClass = businessLogicClass;
         }
 
+        // public object Session { get; private set; }
+        public const string SessionKeyName = "_Name";
+        public const string SessionKeyLast = "_Last";
+        public const string CustomerId = "_Id";
+        const string SessionKeyTime = "_Time";
+
+
         // GET: LoginController
         //[ActionName("Login")]
         public ActionResult Login()
@@ -32,14 +39,18 @@ namespace MelfsMagicStore_Web.Controllers
             // layer to create the User, persist in the Db, and return a user to display.
             // user DI (Dependecy Injection) to get an instance of the business class and access to it's functionality.
             UserViewModel userViewModel = _businessLogicClass.LoginUser(loginUserViewModel);
-            //User user = new User()
-            //{
-            //    Fname = loginUserViewModel.Fname,
-            //    Lname = loginUserViewModel.Lname,
-            //    Email = "",
-            //    defaultStore = ""
-            //};
-            //UserViewModel userViewModel = _businessLogicClass.LoginUser(loginUserViewModel);
+
+            System.Diagnostics.Debug.WriteLine("Value of " + loginUserViewModel.UserId);
+
+            // Requires: using Microsoft.AspNetCore.Http;
+            HttpContext.Session.SetString(SessionKeyName, userViewModel.Fname);
+            HttpContext.Session.SetString(SessionKeyLast, userViewModel.Lname);
+            HttpContext.Session.SetString(CustomerId, userViewModel.UserID.ToString());
+            //Guid newGuid = Guid(HttpContext.Session.GetString("CustomerId"));
+
+
+            System.Diagnostics.Debug.WriteLine("Value of " + userViewModel.UserID);
+            System.Diagnostics.Debug.WriteLine("Valie of Cookie CustomerId = " + HttpContext.Session.GetString(CustomerId));
 
             return View("DisplayUserDetails", userViewModel);
         }
@@ -70,6 +81,19 @@ namespace MelfsMagicStore_Web.Controllers
                 return View();
             }
         }
+
+
+
+        //public void CreateSession(User loggedUser, HttpContext context)
+        //{
+        //    System.Diagnostics.Debug.WriteLine("SignUp");
+
+        //    // Requires: using Microsoft.AspNetCore.Http;
+        //    context.Session.SetString(SessionKeyName, loggedUser.Fname);
+        //    context.Session.SetString(SessionKeyLast, loggedUser.Lname);
+        //    HttpContext.Session.SetInt32(CustomerId, loggedUser.UserId);
+        //    return true;
+        //}
 
         // GET: LoginController/Edit/5
         public ActionResult Edit(int id)

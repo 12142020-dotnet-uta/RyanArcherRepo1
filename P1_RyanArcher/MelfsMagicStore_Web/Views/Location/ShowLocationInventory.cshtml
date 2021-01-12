@@ -7,13 +7,15 @@
 <h1>ShowLocationInventory</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    @*<a asp-action="Create">Create New</a>*@
+    model.Name
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
                 @*@Html.DisplayNameFor(model => model.InventoryId)*@
+                Store
             </th>
             @*<th>
             @Html.DisplayNameFor(model => model.LocationId)
@@ -41,6 +43,7 @@
         <tr>
             <td>
                 @*@Html.DisplayFor(modelItem => item.InventoryId)*@
+                @Html.DisplayFor(modelItem => item.StoreName)
             </td>
             @*<td>
                 @Html.DisplayFor(modelItem => item.LocationId)

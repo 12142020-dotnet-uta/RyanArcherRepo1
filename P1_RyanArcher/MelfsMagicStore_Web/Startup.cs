@@ -33,6 +33,17 @@ namespace MelfsMagicStore_Web
             services.AddScoped<Repository>();
             services.AddScoped<BusinessLogicClass>();
             services.AddScoped<MapperClass>();
+
+            services.AddDistributedMemoryCache();
+
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromSeconds(3000);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
+
+            services.AddHttpContextAccessor();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -55,6 +66,7 @@ namespace MelfsMagicStore_Web
 
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {

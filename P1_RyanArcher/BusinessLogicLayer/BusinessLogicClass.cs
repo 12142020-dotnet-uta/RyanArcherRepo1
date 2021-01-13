@@ -218,6 +218,11 @@ namespace BusinessLogicLayer
                 {
                     //OrderViewModel orderViewModel = _mapperClass.ConvertOrderToOrderViewModel(x, GetOrderById(x.OrderId), GetCartById(x.CartId));
                     OrderViewModel orderViewModel = _mapperClass.ConvertOrderToOrderViewModel(x);
+                    orderViewModel.UserName = _repository.GetUserById(x.UserId).Fname;
+                    orderViewModel.LocationName = _repository.GetLocationById(x.LocationId).City;
+                    orderViewModel.ProductName = _repository.GetProductById(x.ProductId).Name;
+                    orderViewModel.Total = _repository.GetProductById(x.ProductId).Price;
+
                     allProductsInCart.Add(orderViewModel);
                 }
             }

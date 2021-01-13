@@ -15,5 +15,9 @@ namespace ModelLayer.ViewModels
         // FK
         public Guid LocationId { get; set; }
         public Guid ProductId { get; set; }
+
+        public string UserName { get; set; }
+        public string LocationName { get; set; }
+        public string ProductName { get; set; }
     }
 }

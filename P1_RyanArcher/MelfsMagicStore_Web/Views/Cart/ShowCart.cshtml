@@ -7,57 +7,61 @@
 <h1>ShowCart</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    @*<a asp-action="Create">Create New</a>*@
 </p>
 <table class="table">
     <thead>
         <tr>
-            <th>
+            @*<th>
                 @Html.DisplayNameFor(model => model.Id)
+            </th>*@
+            <th>
+                @*@Html.DisplayNameFor(model => model.CartId)*@
+                Product 
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CartId)
+                @*@Html.DisplayNameFor(model => model.UserId)*@
+                User Name
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.UserId)
+                @*@Html.DisplayNameFor(model => model.Total)*@
+                Price
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Total)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LocationId)
-            </th>
-            <th>
+            <!--<th>-->
+                @*@Html.DisplayNameFor(model => model.LocationId)*@
+                <!--Store
+            </th>-->
+            @*<th>
                 @Html.DisplayNameFor(model => model.ProductId)
-            </th>
+            </th>*@
             <th></th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td>
+            @*<td>
                 @Html.DisplayFor(modelItem => item.Id)
+            </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.CartId)
+                @Html.DisplayFor(modelItem => item.UserName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.UserId)
+                $@Html.DisplayFor(modelItem => item.Total)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Total)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LocationId)
-            </td>
-            <td>
+            @*<td>
+                @Html.DisplayFor(modelItem => item.LocationName)
+            </td>*@
+            @*<td>
                 @Html.DisplayFor(modelItem => item.ProductId)
-            </td>
+            </td>*@
             <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @*@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
                 @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })*@
             </td>
         </tr>
 }

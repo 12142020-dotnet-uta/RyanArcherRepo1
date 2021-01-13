@@ -48,7 +48,8 @@ namespace MelfsMagicStore_Web.Controllers
                 newCart = _businessLogicClass.GetCurrentCartId(cartId);
             }
 
-            List<OrderViewModel> listOfProductsInOrder = _businessLogicClass.GetAllProductsInCart(newCart);
+
+        List<OrderViewModel> listOfProductsInOrder = _businessLogicClass.GetAllProductsInCart(newCart);
             return View(listOfProductsInOrder);
         }
         //[HttpPost]

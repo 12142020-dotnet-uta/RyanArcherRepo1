@@ -63,6 +63,18 @@ namespace BusinessLogicLayer
             return locationViewModel;
         }
 
+        public ProductViewModel ConvertProductToProductViewModel(Product product)
+        {
+            ProductViewModel productViewModel = new ProductViewModel()
+            {
+                ProductId = product.ProductId,
+                Name = product.Name,
+                Price = product.Price,
+                Description = product.Description
+            };
+            return productViewModel;
+        }
+
         public OrderViewModel ConvertOrderToOrderViewModel(Order order)
         {
             OrderViewModel orderViewModel = new OrderViewModel()
@@ -88,5 +100,5 @@ namespace BusinessLogicLayer
             };
             return cartViewModel;
         }
-    }
-}
+    } // Mapper Class End
+} // Name Space End

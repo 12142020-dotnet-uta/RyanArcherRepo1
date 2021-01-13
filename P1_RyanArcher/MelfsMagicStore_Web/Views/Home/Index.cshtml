@@ -1,6 +1,18 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+@*@{
+    @using Microsoft.AspNetCore.Http;
+    @inject IHttpContextAccessor HttpContextAccessor
+    var isFiltered = @HttpContextAccessor.HttpContext.Session.GetString("_Id");
+}
+
+<p id="firstName" style="display: none">Howdy, @isFiltered</p>
+<script>
+    var content = document.getElementById("firstName").textContent;
+    console.log("content is " + content);
+    //document.getElementById("Login").innerHTML = content;
+</script>*@
 
 <div class="text-center">
     <h1 class="display-4">Welcome To Melf's Magic Shop</h1>
@@ -9,4 +21,5 @@
     <a asp-controller="User" asp-action="ListAllUsers">View Users.</a><br />
     <a asp-controller="Location" asp-action="ListAllLocations">View Locations.</a><br />
     <a asp-controller="Cart" asp-action="ShowCart">View Cart</a>
+    <a asp-controller="Cart" asp-action="ViewOrders">View All Orders</a>
 </div>

@@ -67,7 +67,11 @@ namespace BusinessLogicLayer
         //    return true;
         //}
 
-
+        public UserViewModel GetUserViewModel(User user)
+        {
+            UserViewModel userViewModel = _mapperClass.ConvertUserToUserViewModel(user);
+            return userViewModel;
+        }
         public List<UserViewModel> GetAllUserViewModels()
         {
             List<User> allUsers = _repository.GetAllUsers();
@@ -99,6 +103,8 @@ namespace BusinessLogicLayer
 
 
 
+                        //***** PRODUCT METHODS *****//
+
         public List<InventoryViewModel> GetLocationProductViewModels()
         {
             List<Inventory> locationInventories = _repository.GetLocationProducts(CurrentLocationId);
@@ -110,6 +116,15 @@ namespace BusinessLogicLayer
             }
             return locationInventoryViewModels;
         }
+
+
+
+
+
+
+
+
+                    //****** LOCATION METHOD ******//
 
         public bool SetCurrentLocation(Guid locationId)
         {
@@ -151,9 +166,51 @@ namespace BusinessLogicLayer
             return allLocationInventories;
         }
 
+        //public ProductViewModel GetProductViewModelById(Guid productId)
+        //{
+        //    List<Product> allProducts = _repository.GetAllProducts();
+        //    List<ProductViewModel> allProductViewModels = new List<ProductViewModel>();
+        //    foreach (Product x in allProducts)
+        //    {
+        //        if (x.ProductId == productId)
+        //        {
+        //            ProductViewModel productViewModel = _mapperClass.ConvertProductToProductViewModel(x, GetProductById(x.ProductId), GetLocationById(x.LocationId));
+        //            allLocationInventories.Add(inventoryViewModel);
+        //        }
+        //    }
+        //    return productViewModel;
+        //}
+
+
+        public Cart CreateCart(Guid userId)
+        {
+            List<Cart> allCarts = _repository.GetAllCarts();
+            Cart cart = new Cart()
+            {
+                CartId = Guid.NewGuid(),
+                StoreId = new Guid("42a320e9-276b-4540-824d-68775f048083"),
+                UserId = userId
+            };
+            allCarts.Add(cart);
+            return cart;
+        }
+        public List<CartViewModel> GetAllCartViewModels()
+        {
+            List<Cart> allCarts = _repository.GetAllCarts();
+            List<CartViewModel> allCartViewModels = new List<CartViewModel>();
+            foreach(Cart x in allCarts)
+            {
+                allCartViewModels.Add(_mapperClass.ConvertCartToCartViewModel(x));
+            }
+            return allCartViewModels;
+        }
+
         public List<OrderViewModel> GetAllProductsInCart(Guid cartId)
         {
-            List<Order> allOrders = _repository.GetAllOrders();
+
+            List<Order> allOrders = new List<Order>();
+            try { allOrders = _repository.GetAllOrders(); }
+            catch {  }
             List<OrderViewModel> allProductsInCart = new List<OrderViewModel>();
             foreach (Order x in allOrders)
             {
@@ -185,37 +242,92 @@ namespace BusinessLogicLayer
         }
         public Guid GetCurrentCartId(Guid userId)
         {
+            // Get a List of all Carts
             List<Cart> allCarts = _repository.GetAllCarts();
             Cart theCart = new Cart();
+            // Loop through all the Carts for Cart that belongs to User.
+            // If Cart belongs to the user check to see if Active.
+            // If Cart is Active return the Cart's Id
             foreach(Cart x in allCarts)
             {
                 if (x.UserId == userId)
                 {
                     if(x.CartStatus == "Active")
                     {
-                        theCart = x;
+                        return x.CartId;
                     }
                 }
             }
+            // Create a New Cart and return the Id
+            theCart = new Cart();
+            allCarts.Add(theCart);
             return theCart.CartId;
         }
 
+        //public List<OrderViewModel> GetAllCartOrderViewModels(Guid cartId)
+        //{
+        //    List<OrderViewModel> listOfOrdersInCart = new List<OrderViewModel>();
+        //    return listOfOrdersInCart;
+        //}
+
+
+        public OrderViewModel AddOrderToCart(Guid locationId, Guid productId, Guid userId, Guid cartId)
+        {
+            // Gets a Product by it's Id
+            Location location = GetLocationById(locationId);
+            Product product = GetProductById(productId);
+            User user = _repository.GetUserById(userId);
+            Cart cart = _repository.GetCartById(cartId);
+            // Create new Order from Product
+            Order newOrder = new Order
+            {
+                CartId = cartId,
+                UserId = new Guid(),
+                Total = product.Price,
+                LocationId = new Guid(),
+                ProductId = product.ProductId
+            };
+            // Add Order to Database
+            _repository.AddOrderItem(location, product, user, cart);
+            _repository.SaveChanges();
+            // Convert Order to OderViewModel
+            OrderViewModel orderViewModel = _mapperClass.ConvertOrderToOrderViewModel(newOrder);
+            // Return OrderViewModel to CartController
+            return orderViewModel;
+        }
 
 
 
         //public PlayerViewModel LoginPlayer()
 
 
+        public User GetUserById(Guid userId)
+        {
+            return _repository.GetUserById(userId);
+        }
         public Product GetProductById(Guid productId)
         {
             return _repository.GetProductById(productId);
         }
-
-
         public Location GetLocationById(Guid locationId)
         {
             return _repository.GetLocationById(locationId);
         }
+        public Cart GetCartById(Guid cartId)
+        {
+            return _repository.GetCartById(cartId);
+        }
+        public Inventory GetInventoryById(Guid inventoryId)
+        {
+            return _repository.GetInventoryById(inventoryId);
+        }
+        public Order GetOrderById(Guid orderId)
+        {
+            return _repository.GetOrderById(orderId);
+        }
+
+
+
 
         public User GetCurrentUserById()
         {

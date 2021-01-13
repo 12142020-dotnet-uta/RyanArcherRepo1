@@ -11,7 +11,7 @@ namespace ModelLayer.ViewModels
         public Guid Id { get; set; }
         public Guid CartId { get; set; }
         public Guid UserId { get; set; }
-        public int Total { get; set; }
+        public double Total { get; set; }
         // FK
         public Guid LocationId { get; set; }
         public Guid ProductId { get; set; }

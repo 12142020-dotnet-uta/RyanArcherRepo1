@@ -32,7 +32,7 @@ namespace RepositoryLayer
         }
 
 
-        //***** USER METHODS *****//
+                        //***** USER METHODS *****//
         public User GetUserById(Guid userId)
         {
             User user = users.FirstOrDefault(x => x.UserId == userId);// check if the user is in the Db
@@ -91,9 +91,24 @@ namespace RepositoryLayer
         }
         
 
+
+
+
                         //***** INVENTORY METHODS *****//
         public List<Inventory> GetAllInventories() {
             return inventories.ToList();
+        }
+        public Inventory GetInventoryById(Guid inventoryId)
+        {
+            Inventory inventory = new Inventory();
+            foreach (Inventory x in inventories)
+            {
+                if (x.InventoryId == inventoryId)
+                {
+                    inventory = x;
+                }
+            }
+            return inventory;
         }
 
         public List<Inventory> GetLocationProducts(Guid locationId)
@@ -142,7 +157,7 @@ namespace RepositoryLayer
 
 
 
-        //***** PRODUCT METHODS *****//
+                        //***** PRODUCT METHODS *****//
         public List<Product> GetAllProducts()
         {
             return products.ToList();
@@ -163,7 +178,7 @@ namespace RepositoryLayer
 
 
 
-        //***** ORDER METHODS *****//
+                        //***** ORDER METHODS *****//
         public List<Order> GetAllOrders()
         {
             return orders.ToList();
@@ -181,10 +196,63 @@ namespace RepositoryLayer
             }
             return order;
         }
+        //public Order AddOrder(Order order)
+        //{
+        //    orders.Add(order);
+        //    _dbContext.SaveChanges();
+        //    return order;
+        //}
+        public bool DeleteOrder(Order order)
+        {
+            orders.Remove(order);
+            _dbContext.SaveChanges();
+            return true;
+        }
 
+
+
+
+
+
+                        //***** CART METHODS *****//
         public List<Cart> GetAllCarts()
         {
             return carts.ToList();
+        }
+
+        public Cart GetCartById(Guid cartId)
+        {
+            Cart cart = new Cart();
+            foreach (Cart x in carts)
+            {
+                if (x.CartId == cartId)
+                {
+                    cart = x;
+                }
+            }
+            return cart;
+        }
+
+        public Cart AddCart(Cart cart)
+        {
+            carts.Add(cart);
+            _dbContext.SaveChanges();
+            return cart;
+        }
+
+
+
+
+        public bool DoesCartExist(Guid cartId)
+        {
+            if (carts.Any(x => x.CartId == cartId))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
 
@@ -297,9 +365,26 @@ namespace RepositoryLayer
             return true;
         }
 
-
+        /// <summary>
+        /// Creates a New Order and Adds it to the Database
+        /// </summary>
+        /// <param name="store"></param>
+        /// <param name="product"></param>
+        /// <param name="user"></param>
+        /// <param name="cart"></param>
+        /// <returns></returns>
         public bool AddOrderItem(Location store, Product product, User user, Cart cart)
         {
+            //Guid tempUserId = Guid.Parse("aac98d45-c0df-4e30-ab3f-81beaa2b381d");
+
+            if (!DoesCartExist(cart.CartId))
+            {
+                cart.StoreId = store.LocationId;
+                cart.UserId = user.UserId;
+                cart.CartStatus = "Active";
+                AddCart(cart);
+                //return true;
+            }
             Order orderItem = new Order
             {
                 LocationId = store.LocationId,

@@ -7,16 +7,17 @@
 <h1>Store Locations</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    @*<a asp-action="Create">Create New</a>*@
 </p>
 <table class="table">
     <thead>
         <tr>
-            <th>
+            @*<th>
                 @Html.DisplayNameFor(model => model.LocationId)
-            </th>
+            </th>*@
             <th>
-                @Html.DisplayNameFor(model => model.City)
+                @*@Html.DisplayNameFor(model => model.City)*@
+                City
             </th>
             <th></th>
         </tr>
@@ -24,9 +25,9 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td>
+            @*<td>
                 @Html.DisplayFor(modelItem => item.LocationId)
-            </td>
+            </td>*@
             <td>
                 @Html.DisplayFor(modelItem => item.City)
             </td>
@@ -38,9 +39,9 @@
            asp-action="ShowLocationInventory"
            asp-route-id="@item.LocationId">StoreId: @item.LocationId</a>*@
 
-                <a asp-controller="Location"
+                @*<a asp-controller="Location"
                    asp-action="ShowLocationInventory"
-                   asp-route-id="@item.LocationId">SpeakerId: @item.LocationId</a>
+                   asp-route-id="@item.LocationId">SpeakerId: @item.LocationId</a>*@
                 @*@Html.ActionLink("Shop Store", "ShowLocationInventory", "Location", new { id = item.LocationId }, null)*@
                 @*|
         @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |

@@ -210,6 +210,20 @@ namespace RepositoryLayer
         }
 
 
+        public void DecrementInventory(Guid locationId, Guid productId)
+        {
+            Inventory inventoryItem = new Inventory();
+            foreach(Inventory x in inventories)
+            {
+                if(x.LocationId == locationId)
+                {
+                    if(x.ProductId == productId)
+                    {
+                        x.Quantity--;
+                    }
+                }
+            }
+        }
 
 
 

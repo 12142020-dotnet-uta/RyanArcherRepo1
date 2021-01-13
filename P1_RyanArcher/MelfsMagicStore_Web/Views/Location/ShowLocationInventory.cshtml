@@ -65,11 +65,11 @@
             </td>
             <td>
                 <a asp-controller="Cart"
-                    asp-action="AddProductToCart"
-                    asp-route-id="@item.ProductId">Purchase</a>  |  
+                   asp-action="AddProductToCart"
+                   asp-route-id="@item.ProductId">Purchase</a>  @*|
 
-                @Html.ActionLink("Purchase", "AddProductToCart", new { id = item.ProductId })  |
-                @Html.ActionLink("Purchase", "Edit", new { /* id=item.PrimaryKey */ }) @*|
+        @Html.ActionLink("Purchase", "AddProductToCart", new { id = item.ProductId })  |
+                |
         @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
         @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })*@
             </td>

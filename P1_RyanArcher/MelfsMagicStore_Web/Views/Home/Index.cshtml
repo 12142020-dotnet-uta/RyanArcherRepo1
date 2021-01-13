@@ -14,12 +14,13 @@
     //document.getElementById("Login").innerHTML = content;
 </script>*@
 
-<div class="text-center">
+<div class="text-center" style="background-image: url(~/images/magicbanner.jpg)">
     <h1 class="display-4">Welcome To Melf's Magic Shop</h1>
     <p>The medieval magic store that's so enchanted it's on the internet before computers where ven invented yet.</p>
     <a asp-controller="Login" asp-action="Login">Click Here to Login.</a><br />
-    <a asp-controller="User" asp-action="ListAllUsers">View Users.</a><br />
-    <a asp-controller="Location" asp-action="ListAllLocations">View Locations.</a><br />
-    <a asp-controller="Cart" asp-action="ShowCart">View Cart</a>
-    <a asp-controller="Cart" asp-action="ViewOrders">View All Orders</a>
+
+    @*<a asp-controller="Location" asp-action="ListAllLocations">View Locations.</a><br />*@
+</div>
+<div>
+    <img src="~/images/magicbanner.jpg" />
 </div>

@@ -302,6 +302,7 @@ namespace BusinessLogicLayer
             };
             // Add Order to Database
             _repository.AddOrderItem(location, product, user, cart);
+            _repository.DecrementInventory(location.LocationId, product.ProductId);
             _repository.SaveChanges();
             // Convert Order to OderViewModel
             OrderViewModel orderViewModel = _mapperClass.ConvertOrderToOrderViewModel(newOrder);

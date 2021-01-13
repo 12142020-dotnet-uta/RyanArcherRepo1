@@ -4,7 +4,7 @@
     ViewData["Title"] = "DisplayUserDetails";
 }
 
-<h1>DisplayUserDetails</h1>
+<h1>User Details</h1>
 
 <div>
     <h4>User</h4>
@@ -43,7 +43,10 @@
     </dl>
 </div>
 <div>
-    <a asp-controller="User" asp-action="EditUser" asp-route-userGuid="model.UserID" method="get">Edit This UserPlayer</a>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-    <a asp-action="Index">Back to List</a>
+    @*<a asp-controller="User" asp-action="EditUser" asp-route-userGuid="model.UserID" method="get">Edit This UserPlayer</a>
+        @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+        <a asp-action="Index">Back to List</a>*@
+    <a asp-controller="Cart" asp-action="ShowCart">View Cart</a>  |   
+    <a asp-controller="Cart" asp-action="ViewOrders">View All Orders</a>  |  
+    <a asp-controller="User" asp-action="ListAllUsers">View Users.</a><br />
 </div>

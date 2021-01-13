@@ -223,6 +223,7 @@ namespace RepositoryLayer
         public Cart GetCartById(Guid cartId)
         {
             Cart cart = new Cart();
+            cart.CartId = cartId;
             foreach (Cart x in carts)
             {
                 if (x.CartId == cartId)
@@ -231,6 +232,19 @@ namespace RepositoryLayer
                 }
             }
             return cart;
+        }
+
+        public List<Cart> GetCartByUser(Guid userId)
+        {
+            List<Cart> userCarts = new List<Cart>();
+            foreach (Cart x in carts)
+            {
+                if(x.UserId == userId)
+                {
+                    userCarts.Add(x);
+                }
+            }
+            return userCarts;
         }
 
         public Cart AddCart(Cart cart)

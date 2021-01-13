@@ -36,21 +36,6 @@ namespace MelfsMagicStore_Web.Controllers
 
         public IActionResult ShowCart(Guid cartId)
         {
-            //Guid curGuid = new Guid();
-            //Guid userId = new Guid();
-            ////Guid blank = userId;
-            //try { userId = new Guid(HttpContext.Session.GetString("_Id")); }
-            //catch { return RedirectToAction("Login", "Login"); };
-            //try {curGuid = new Guid(HttpContext.Session.GetString("_Cart"));}
-            //catch {curGuid = _businessLogicClass.GetCurrentCartId(userId);}
-            ////curGuid = new Guid(HttpContext.Session.GetString("_Id"));
-            //System.Diagnostics.Debug.WriteLine("Value of Cookie curGuid = " + curGuid);
-            ////Guid newCartId = Guid.Parse("a7ebefbb-b7cb-423a-ac62-03bbaf9d2062");
-            ////Guid curCartId = _businessLogicClass.GetCartsOfUser(_businessLogicClass.CurrentUserId);
-            //Guid curCartId = _businessLogicClass.GetCurrentCartId(curGuid);
-            //List<OrderViewModel> listOfProductsInOrder = _businessLogicClass.GetAllProductsInCart(/**/curCartId/**//*cartId/**/);
-            //return View(listOfProductsInOrder);
-
             // Check to see if User is logged in if not then redirect to Login page.
             Guid userId = new Guid();
             try { userId = new Guid(HttpContext.Session.GetString("_Id")); }
@@ -88,7 +73,8 @@ namespace MelfsMagicStore_Web.Controllers
             List<OrderViewModel> listOfProductsInCart = _businessLogicClass.GetAllProductsInCart(/*newLocationId/**//**/cartId/**/);
 
             //return View(listOfProductsInCart);
-            return RedirectToAction("ShowLocationInventory", "Location", new { id = locationId });
+            //return RedirectToAction("ShowLocationInventory", "Location", new { id = locationId });
+            return RedirectToAction("ShowCart", new { id = cartId });
             //try{
             //    System.Diagnostics.Debug.WriteLine("Trying the Session CartId = " + HttpContext.Session.GetString("_Cart"));
             //    cartId = new Guid(HttpContext.Session.GetString("_Cart"));

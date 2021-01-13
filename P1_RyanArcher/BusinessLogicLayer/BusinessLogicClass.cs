@@ -225,6 +225,14 @@ namespace BusinessLogicLayer
             return allProductsInCart;
         }
 
+        public List<CartViewModel> GetAllCartsOfUser(Guid userId)
+        {
+            List<Cart> allUserCarts = _repository.GetCartByUser(userId);
+            List<CartViewModel> allUserCartViewModels = new List<CartViewModel>();
+            //foreach(Cart _mapperClass.ConvertCartToCartViewModel(usedId);
+            return allUserCartViewModels;
+        }
+
         public List<CartViewModel> GetCartsOfUser(Guid userId)
         {
             //Cart newCart = new Cart();

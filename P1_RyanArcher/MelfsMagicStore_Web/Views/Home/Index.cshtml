@@ -1,0 +1,26 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+@*@{
+    @using Microsoft.AspNetCore.Http;
+    @inject IHttpContextAccessor HttpContextAccessor
+    var isFiltered = @HttpContextAccessor.HttpContext.Session.GetString("_Id");
+}
+
+<p id="firstName" style="display: none">Howdy, @isFiltered</p>
+<script>
+    var content = document.getElementById("firstName").textContent;
+    console.log("content is " + content);
+    //document.getElementById("Login").innerHTML = content;
+</script>*@
+
+<div class="text-center" style="background-image: url(~/images/magicbanner.jpg)">
+    <h1 class="display-4">Welcome To Melf's Magic Shop</h1>
+    <p>The medieval magic store that's so enchanted it's on the internet before computers where ven invented yet.</p>
+    <a asp-controller="Login" asp-action="Login">Click Here to Login.</a><br />
+
+    @*<a asp-controller="Location" asp-action="ListAllLocations">View Locations.</a><br />*@
+</div>
+<div>
+    <img src="~/images/magicbanner.jpg" />
+</div>

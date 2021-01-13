@@ -1,0 +1,102 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Melf's Magic Store</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+
+    @*@{
+        @using Microsoft.AspNetCore.Http;
+        @inject IHttpContextAccessor HttpContextAccessor
+        var filteredFirst = @HttpContextAccessor.HttpContext.Session.GetString("_Name");
+        var filteredLast = @HttpContextAccessor.HttpContext.Session.GetString("_Last");
+        string customerName = "";
+        if (filteredFirst != null)
+        {
+            customerName = "Welcome " + (string)filteredFirst + " " + (string)filteredLast;
+        }
+        else
+        {
+            customerName = "Login";
+        }
+    }*@
+</head>
+<body>
+    @*<p id="firstName" style="display: none">Howdy, @filteredFirst</p>
+
+    <script>
+        var loginBox = document.getElementById("LoginBox");
+        var content = document.getElementById("userName").textContent;
+        console.log("content is " + content);
+        document.getElementById("Login").innerHtml = content;
+    </script>*@
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Melf's Magic</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            @*<a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>*@
+                            <a asp-controller="Location" asp-action="ListAllLocations">Shop</a><br />
+                        </li>
+                        @*<li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        </li>*@
+                    </ul>
+                </div>
+                <span>
+                    @{
+                        @using Microsoft.AspNetCore.Http;
+                        @inject IHttpContextAccessor HttpContextAccessor
+                        @*var fakeUser = "000";*@
+                        var isFiltered = @HttpContextAccessor.HttpContext.Session.GetString("_Id");
+                        string filteredFirst = @HttpContextAccessor.HttpContext.Session.GetString("_Name");
+                        var filteredLast = @HttpContextAccessor.HttpContext.Session.GetString("_Last");
+                    }
+                    @*<a id="LoginBox" asp-controller="Login" asp-action="Login">Click Here to Login.</a><br />*@
+                    <a asp-controller="Login"
+                       asp-action="ViewAccount"
+                       asp-route-id="@isFiltered">Account</a>
+                </span>
+                
+
+                @*<p id="firstName" style="display: none">Howdy, @filteredFirst</p>
+                <script>
+                    var content = document.getElementById("firstName").textContent;
+                    var firstname = "";
+                    console.log("content is " + firstname + "");
+                    var loginText = "Login";
+                    if (!@filteredFirst == null) {
+                        loginText = "Account";
+                    };
+                    //document.getElementById("LoginBox").innerHTML = content;
+                    document.getElementById("LoginBox").innerHTML = loginText;
+                </script>*@
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2021 - MelfsMagicStore_Web - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

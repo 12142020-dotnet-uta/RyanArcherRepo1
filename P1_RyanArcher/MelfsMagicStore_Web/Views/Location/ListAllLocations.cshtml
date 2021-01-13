@@ -1,0 +1,53 @@
+﻿@model IEnumerable<ModelLayer.ViewModels.LocationViewModel>
+
+@{
+    ViewData["Title"] = "Store Locations";
+}
+
+<h1>Store Locations</h1>
+
+<p>
+    @*<a asp-action="Create">Create New</a>*@
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            @*<th>
+                @Html.DisplayNameFor(model => model.LocationId)
+            </th>*@
+            <th>
+                @*@Html.DisplayNameFor(model => model.City)*@
+                City
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            @*<td>
+                @Html.DisplayFor(modelItem => item.LocationId)
+            </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.City)
+            </td>
+            <td>
+                @Html.ActionLink("Shop Store", "ShowLocationInventory", new { id = item.LocationId })
+                @*<a asp-controller="Location" asp-action="ViewStore" asp-route-locationId="@item.LocationId" method="get">Edit This Player</a>
+        <a asp-controller="Location" asp-action="SetStoreView" asp-route-value="@Url.RouteUrl(ViewContext.RouteData.Values)">New Route</a>
+        <a asp-controller="Location"
+           asp-action="ShowLocationInventory"
+           asp-route-id="@item.LocationId">StoreId: @item.LocationId</a>*@
+
+                @*<a asp-controller="Location"
+                   asp-action="ShowLocationInventory"
+                   asp-route-id="@item.LocationId">SpeakerId: @item.LocationId</a>*@
+                @*@Html.ActionLink("Shop Store", "ShowLocationInventory", "Location", new { id = item.LocationId }, null)*@
+                @*|
+        @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+        @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })*@
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

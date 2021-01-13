@@ -1,0 +1,52 @@
+﻿@model ModelLayer.ViewModels.UserViewModel
+
+@{
+    ViewData["Title"] = "DisplayUserDetails";
+}
+
+<h1>User Details</h1>
+
+<div>
+    <h4>User</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.UserID)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.UserID)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Fname)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Fname)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Lname)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Lname)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.DefaultStoreId)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DefaultStoreId)
+        </dd>
+    </dl>
+</div>
+<div>
+    @*<a asp-controller="User" asp-action="EditUser" asp-route-userGuid="model.UserID" method="get">Edit This UserPlayer</a>
+        @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+        <a asp-action="Index">Back to List</a>*@
+    <a asp-controller="Cart" asp-action="ShowCart">View Cart</a>  |   
+    <a asp-controller="Cart" asp-action="ViewOrders">View All Orders</a>  |  
+    <a asp-controller="User" asp-action="ListAllUsers">View Users.</a><br />
+</div>

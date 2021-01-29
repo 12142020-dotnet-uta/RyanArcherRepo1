@@ -1,0 +1,61 @@
+button.custombtn {
+    display: block;
+    padding: 14px 40px;
+    font-size: 1.2em;
+    margin: 10px auto;
+    border-radius: 0.12em;
+    border:0.1em solid #FFFFFF;
+    color: #FFFFFF;
+    background-color: transparent;
+}
+
+button.custombtn:hover{
+    color: black;
+    background-color: white;
+}
+
+input {
+    display: block;
+    margin: 10px auto;
+    font-size: 1.1em;
+}
+
+form{
+    display: block;
+    margin: 10px auto;
+    padding: 100px;
+    width: 60%;
+}
+
+div{
+    display: block;
+    text-align: center;
+}
+
+html,body{
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    color:#FFFFFF;
+    background-color: #000000;
+}
+
+canvas{
+    width: auto;
+    height: auto;
+}
+
+.bouncy{
+    animation:bouncy 5s infinite linear;
+    position:relative;
+}
+
+@keyframes bouncy {
+    0%{top:0em}
+    40%{top:0em}
+    43%{top:-0.9em}
+    46%{top:0em}
+    48%{top:-0.4em}
+    50%{top:0em}
+    100%{top:0em;}
+}
